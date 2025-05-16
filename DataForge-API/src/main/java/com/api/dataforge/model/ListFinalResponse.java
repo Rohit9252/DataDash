@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class TestResponse {
+public class ListFinalResponse {
 
     @JsonProperty("status")
     private String status;
