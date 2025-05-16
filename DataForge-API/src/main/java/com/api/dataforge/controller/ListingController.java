@@ -19,20 +19,15 @@ public class ListingController {
 
     private final ListingService listingService;
 
-    private final WebClient webClient;
-
-    public ListingController(ListingService listingService, WebClient webClient) {
+    public ListingController(ListingService listingService) {
         this.listingService = listingService;
-        this.webClient = webClient;
+
     }
 
 
     @GetMapping
     public Mono<?>  getListing() {
-       return (Mono<?>) webClient.get()
-                .uri("https://api.bridgedataoutput.com/api/v2/test/listings")
-                .header(HttpHeaders.AUTHORIZATION , "Bearer 0ae2d6309e1b7947430d6147fd3d8a44")
-                .retrieve();
+        return listingService.fetchListing();
 
     }
 }
