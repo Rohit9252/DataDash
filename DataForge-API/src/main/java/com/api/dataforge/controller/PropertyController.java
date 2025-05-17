@@ -1,10 +1,7 @@
 package com.api.dataforge.controller;
 
 import com.api.dataforge.service.PropertyService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -19,8 +16,13 @@ public class PropertyController {
     }
 
     @GetMapping
-    public Mono<?> getListing() {
-        return propertyService.fetchProperty();
+    public Mono<?> getListingHandler(@RequestParam String dataSet) {
+        return propertyService.fetchProperty(dataSet);
 
+    }
+
+    @GetMapping("/{ListingKey}")
+    public Mono<?> getPropertyByIdHandler(@RequestParam(required = true) String dataSet, @PathVariable String ListingKey){
+        return propertyService.fetchPropertyByKey(dataSet, ListingKey);
     }
 }

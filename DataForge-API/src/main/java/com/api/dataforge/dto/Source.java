@@ -1,4 +1,4 @@
-package com.api.dataforge.model;
+package com.api.dataforge.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,15 +1,17 @@
-package com.api.dataforge.model;
+package com.api.dataforge.response;
 
+import com.api.dataforge.dto.ListingResponseDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class ListingSingleResponse {
+public class ListingResponse {
+
     @JsonProperty("status")
     private String status;
     @JsonProperty("success")
     private Boolean success;
 
     @JsonProperty("bundle")
-    private ListingResponse bundle;
+    private List<ListingResponseDTO> bundle;
 }

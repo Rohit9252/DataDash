@@ -1,7 +1,8 @@
 package com.api.dataforge.service;
 
 
-import com.api.dataforge.dto.NewsResponse;
+
+import com.api.dataforge.response.RevieweeResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -9,25 +10,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-public class NewsService {
-
+public class RevieweeService {
 
     private final WebClient webClient;
 
-    public NewsService(WebClient webClient) {
+    public RevieweeService(WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public Mono<NewsResponse> fetchNews() {
+    public Mono<RevieweeResponse> fetchReviewees() {
         return webClient.get()
-                .uri("https://newsapi.org/v2/everything?q=business&from=2025-05-05&sortBy=publishedAt&pageSize=30&apiKey=c6d00f0088a34a34949f0acee9ab0b97")
+                .uri("https://api.bridgedataoutput.com/api/v2/OData/reviews/Reviewees?access_token=0ae2d6309e1b7947430d6147fd3d8a44")
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(NewsResponse.class);
-//                .flatMapMany(response -> Flux.fromIterable(response.articles));
+                .bodyToMono(RevieweeResponse.class);
     }
-
-
-
-
 }
