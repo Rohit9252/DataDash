@@ -1,7 +1,8 @@
 package com.api.dataforge.service;
 
-import com.api.dataforge.model.ListFinalResponse;
-import com.api.dataforge.model.PropertyFinalResponse;
+import com.api.dataforge.dto.PropertyResponseDTO;
+import com.api.dataforge.response.PropertyResponse;
+import com.api.dataforge.response.PropertySingleResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,20 @@ public class PropertyService {
     }
 
 
-    public Mono<PropertyFinalResponse> fetchProperty() {
+    public Mono<PropertyResponse> fetchProperty(String dataSet) {
         return webClient.get()
-                .uri("https://api.bridgedataoutput.com/api/v2/OData/test/Property?access_token=0ae2d6309e1b7947430d6147fd3d8a44")
+                .uri("https://api.bridgedataoutput.com/api/v2/OData/"+dataSet+"/Property?access_token=0ae2d6309e1b7947430d6147fd3d8a44")
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(PropertyFinalResponse.class);
-//                .flatMapMany(response -> Flux.fromIterable(response.articles));
+                .bodyToMono(PropertyResponse.class);
+    }
+
+    public Mono<PropertyResponseDTO> fetchPropertyByKey(String dataSet, String propertyKey) {
+        String url = "https://api.bridgedataoutput.com/api/v2/OData/"+dataSet+"/Property('"+propertyKey+"')?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+        return webClient.get()
+                .uri(url)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .bodyToMono(PropertyResponseDTO.class);
     }
 }

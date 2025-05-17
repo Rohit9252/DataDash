@@ -1,7 +1,7 @@
 package com.api.dataforge.controller;
 
 
-import com.api.dataforge.model.NewsResponse;
+import com.api.dataforge.dto.NewsResponse;
 
 import com.api.dataforge.service.NewsService;
 import lombok.extern.slf4j.Slf4j;

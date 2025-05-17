@@ -1,10 +1,10 @@
-package com.api.dataforge.model;
+package com.api.dataforge.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ListingResponse {
+public class ListingResponseDTO {
     /*
     @JsonProperty("ListingKey")
     public String listingKey;
@@ -1061,7 +1061,7 @@ public class ListingResponse {
     @JsonProperty("MobileWidth")
     public Double mobileWidth;
     @JsonProperty("Model")
-    public String model;
+    public String dto;
     @JsonProperty("NetOperatingIncome")
     public Double netOperatingIncome;
     @JsonProperty("NewTaxesExpense")
@@ -2406,7 +2406,7 @@ public class ListingResponse {
     @JsonProperty("GreenEnergyEfficient")
     public ArrayList<String> greenEnergyEfficient;
     @JsonProperty("Media")
-    public ArrayList<Medium> media;
+    public ArrayList<MediumDTO> media;
     @JsonProperty("CapRate")
     public Object capRate;
     @JsonProperty("RentIncludes")

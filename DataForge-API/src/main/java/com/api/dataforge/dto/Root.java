@@ -1,4 +1,4 @@
-package com.api.dataforge.model;
+package com.api.dataforge.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -25,8 +25,9 @@ public class ListingController {
     }
 
     @GetMapping("/{listingKey}")
-    public Mono<?>  getListingByIdHandler(@RequestParam(required = true) String dataSet,@PathVariable String listingKey) {
+    public Mono<?>  getListingByIdHandler(@PathVariable String listingKey,@RequestParam(required = true) String dataSet) {
         return listingService.fetchListingById(dataSet, listingKey);
 
     }
+
 }
