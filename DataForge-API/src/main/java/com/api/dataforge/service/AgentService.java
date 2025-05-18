@@ -2,6 +2,8 @@ package com.api.dataforge.service;
 
 import com.api.dataforge.response.AgentResponse;
 import com.api.dataforge.response.AgentSingleResponse;
+import com.api.dataforge.util.BridgeApiProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import reactor.core.publisher.Mono;
 public class AgentService {
 
     private final WebClient webClient;
+
 
     public AgentService(WebClient webClient) {
         this.webClient = webClient;

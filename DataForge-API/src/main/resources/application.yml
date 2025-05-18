@@ -6,3 +6,8 @@ spring:
   main:
     web-application-type: reactive
 
+bridge:
+  base-url: https://api.bridgedataoutput.com/api/v2
+  access-token: 0ae2d6309e1b7947430d6147fd3d8a44
+
+
