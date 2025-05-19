@@ -1,6 +1,13 @@
 package com.api.dataforge.controller;
 
+import com.api.dataforge.dto.ErrorResponseDto;
 import com.api.dataforge.service.ReviewsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +17,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api/reviews")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Tag(name = "Reviews", description = "Endpoints for managing reviews")
 public class ReviewsController {
 
     private final ReviewsService reviewsService;
@@ -18,6 +26,23 @@ public class ReviewsController {
         this.reviewsService = reviewsService;
     }
 
+
+
+    @Operation(summary = "Get all reviews", description = "Fetches all reviews for the given dataset")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
     @GetMapping
     public Mono<?> getReviewsHandler(){
         return reviewsService.fetchReviews();
