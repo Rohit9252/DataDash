@@ -1,9 +1,14 @@
 package com.api.dataforge.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
+@Schema(
+        name = "ReviewsResponseDTO",
+        description = "Schema to hold reviews response information"
+)
 public class ReviewsResponseDTO {
 
     @JsonProperty("PropertyLocationNames")
