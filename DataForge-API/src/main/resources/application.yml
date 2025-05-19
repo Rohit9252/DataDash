@@ -12,7 +12,14 @@ bridge:
   access-token: 0ae2d6309e1b7947430d6147fd3d8a44
 
 #springdoc:
-##  api-docs:
-##    path: /v3/api-docs
+#  api-docs:
+#    path: /v3/api-docs
 #  swagger-ui:
 #    path: /swagger-ui.html
+
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
