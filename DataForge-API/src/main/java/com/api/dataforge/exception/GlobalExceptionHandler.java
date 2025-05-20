@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ServerWebExchange;
 
 
 import java.time.LocalDateTime;
@@ -41,9 +42,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception exception,
-                                                                  WebRequest webRequest) {
+                                                                  ServerWebExchange exchange) {
+        String path = exchange.getRequest().getPath().value();
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-                webRequest.getDescription(false),
+                path,
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 exception.getMessage(),
                 LocalDateTime.now()
@@ -53,9 +55,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(RuntimeException exception,
-                                                                            WebRequest webRequest) {
+                                                                            ServerWebExchange exchange) {
+        String path = exchange.getRequest().getPath().value();
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-                webRequest.getDescription(false),
+               path,
                 HttpStatus.NOT_FOUND,
                 exception.getMessage(),
                 LocalDateTime.now()
