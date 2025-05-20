@@ -6,5 +6,5 @@ public class ParcelByIdResponse {
 
     public boolean success;
     public int status;
-    public ParcelDTO bundle;
+    public Object bundle;
 }

@@ -15,4 +15,5 @@ public class AddressDTO {
     public String state;
     public String zip;
     public String zip4;
+
 }

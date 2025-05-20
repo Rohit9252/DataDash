@@ -14,4 +14,5 @@ public class LegalDTO {
     public Object municipality;
     public Object city;
     public Object township;
+
 }
