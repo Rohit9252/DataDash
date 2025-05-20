@@ -18,4 +18,4 @@ springdoc:
 # add postman mock url path
 postman:
     mock:
-        url: https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io
+        url: https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2
