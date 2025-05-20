@@ -28,4 +28,32 @@ public class ZillowController {
         return zillowService.fetchMarketReport();
     }
 
+    @GetMapping("/marketreport/replication")
+    public Mono<?> getMarketReportReplication() {
+        log.info("Fetching market report replication");
+        return zillowService.fetchMarketReportReplication();
+    }
+
+
+    @GetMapping("/region")
+    public Mono<?> getRegion() {
+        log.info("Fetching region");
+        return zillowService.fetchRegion();
+    }
+
+
+    @GetMapping("/cut")
+    public Mono<?> getCut() {
+        log.info("Fetching cut");
+        return zillowService.fetchCut();
+    }
+
+
+    @GetMapping("/type")
+    public Mono<?> getType() {
+        log.info("Fetching type");
+        return zillowService.fetchType();
+    }
+
+
 }

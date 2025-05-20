@@ -15,12 +15,12 @@ import reactor.core.publisher.Mono;
 public class ZillowService {
 
     private final WebClient webClient;
-    private final BridgeApiUriBuilder bridgeApiUriBuilder;
 
 
-    public ZillowService(WebClient webClient, BridgeApiUriBuilder bridgeApiUriBuilder) {
+
+    public ZillowService(WebClient webClient) {
         this.webClient = webClient;
-        this.bridgeApiUriBuilder = bridgeApiUriBuilder;
+
     }
 
 
@@ -33,8 +33,66 @@ public class ZillowService {
                 .retrieve()
                 .bodyToMono(ApiResponse.class);
 
-        // Blocking just for simplicity; consider using async (reactive) in production
+
         return responseMono;
     }
 
+
+    public Mono<ApiResponse> fetchMarketReportReplication() {
+
+        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/zgecon/marketreport/replication?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+        log.info("URL is {}", url);
+        Mono<ApiResponse> responseMono = webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(ApiResponse.class);
+
+
+        return responseMono;
+    }
+
+    public Mono<?> fetchRegion() {
+
+
+        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/zgecon/region?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+        log.info("URL is {}", url);
+        Mono<ApiResponse> responseMono = webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(ApiResponse.class);
+
+
+        return responseMono;
+
+    }
+
+    public Mono<?> fetchCut() {
+
+        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/zgecon/cut?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+        log.info("URL is {}", url);
+        Mono<ApiResponse> responseMono = webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(ApiResponse.class);
+
+
+        return responseMono;
+
+    }
+
+    public Mono<?> fetchType() {
+        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/zgecon/type?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+        log.info("URL is {}", url);
+        Mono<ApiResponse> responseMono = webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(ApiResponse.class);
+
+
+        return responseMono;
+    }
 }
