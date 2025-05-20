@@ -3,54 +3,45 @@ package com.api.dataforge.exception;
 
 import com.api.dataforge.dto.ErrorResponseDto;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
-
-
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 
-//@ControllerAdvice
-//@RestControllerAdvice
-//@RestControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
+/*
+    @ExceptionHandler(RuntimeException.class)
+    public Mono<ResponseEntity<ErrorResponseDto>> handleRuntimeException(RuntimeException ex,  ServerWebExchange exchange) {
 
-
-
-    @ExceptionHandler(Exception.class)
-    public Mono<ResponseEntity<Map<String, Object>>> handleAllExceptions(
-            Exception ex, ServerWebExchange exchange) {
         String path = exchange.getRequest().getPath().value();
+
+        // ✅ Don't interfere with Swagger/OpenAPI endpoints
         if (path.startsWith("/v3/api-docs") || path.startsWith("/swagger") || path.contains("swagger-ui")) {
-            // Let default handler handle Swagger
-            return Mono.error(ex);
+            return Mono.error(ex);  // Let Spring handle it
         }
-        Map<String, Object> response = new HashMap<>();
-        response.put("error", "Internal Server Error");
-        response.put("message", ex.getMessage());
-        return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response));
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                path,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return Mono.just(ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorResponseDTO));
     }
 
-
-
+ */
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception exception,
-                                                                  HttpServletRequest request, WebRequest webRequest) {
-
-
+                                                                  WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -71,6 +62,20 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
+
+
+
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(Exception exception,
+//                                                                                 WebRequest webRequest){
+//        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+//                webRequest.getDescription(false),
+//                HttpStatus.BAD_REQUEST,
+//                exception.getMessage(),
+//                LocalDateTime.now()
+//        );
+//        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+//    }
 
 
 }

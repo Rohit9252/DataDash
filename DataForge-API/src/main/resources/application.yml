@@ -11,15 +11,11 @@ bridge:
   base-url: https://api.bridgedataoutput.com/api/v2
   access-token: 0ae2d6309e1b7947430d6147fd3d8a44
 
-#springdoc:
-#  api-docs:
-#    path: /v3/api-docs
-#  swagger-ui:
-#    path: /swagger-ui.html
+springdoc:
+  override-with-generic-response: false
 
 
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
+# add postman mock url path
+postman:
+    mock:
+        url: https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io
