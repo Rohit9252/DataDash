@@ -2,6 +2,7 @@ package com.api.dataforge.service;
 
 import com.api.dataforge.response.ApiResponse;
 import com.api.dataforge.response.ParcelResponse;
+import com.api.dataforge.util.MockServerURLBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,14 +15,17 @@ public class PublicService {
 
 
     private final WebClient webClient;
+    private final MockServerURLBuilder mockServerURLBuilder;
 
 
-    public PublicService(WebClient webClient) {
+    public PublicService(WebClient webClient, MockServerURLBuilder mockServerURLBuilder) {
         this.webClient = webClient;
+        this.mockServerURLBuilder = mockServerURLBuilder;
     }
 
     public Mono<?> getPubParcels() {
-        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/parcels?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+//        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/parcels?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+        String url = mockServerURLBuilder.buildUri("pub", "parcels");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -48,7 +52,8 @@ public class PublicService {
 
 
     public Mono<?> getParcelByIdAssessments(String id) {
-        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/parcels/1951257/assessments?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+
+        String url = mockServerURLBuilder.buildUri("pub", "parcels", id, "assessments");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -64,7 +69,7 @@ public class PublicService {
     public Mono<?> getParcelByIdTransactions(String id) {
 
 
-            String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/parcels/1951257/transactions?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+            String url = mockServerURLBuilder.buildUri("pub", "parcels", id, "transactions");
             log.info("URL is {}", url);
             Mono<ApiResponse> responseMono = webClient
                     .get()
@@ -78,7 +83,7 @@ public class PublicService {
 
 
     public Mono<?> getPubAssessments() {
-        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/assessments?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+       String url  = mockServerURLBuilder.buildUri("pub", "assessments");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -91,7 +96,7 @@ public class PublicService {
     }
 
     public Mono<?> getPubTransactions() {
-        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/transactions?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+       String url = mockServerURLBuilder.buildUri("pub", "transactions");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
