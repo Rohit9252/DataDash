@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
         name = "ErrorResponse",
         description = "Schema to hold error response information"
 )
+@Component
 @Getter
 @Setter
 @AllArgsConstructor
