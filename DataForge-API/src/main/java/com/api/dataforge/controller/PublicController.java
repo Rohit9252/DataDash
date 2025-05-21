@@ -28,8 +28,6 @@ public class PublicController {
         return publicService.getPubParcels();
     }
 
-
-
     @GetMapping("/parcels/{id}")
     public Mono<?> getParcelById(@PathVariable String id) {
         log.info("Fetching parcel by id: {}", id);
