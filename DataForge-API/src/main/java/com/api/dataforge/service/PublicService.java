@@ -39,7 +39,10 @@ public class PublicService {
     }
 
     public Mono<?> getParcelById(String id) {
-        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/parcels/1951257?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
+
+        String url  = mockServerURLBuilder.buildUri("pub", "parcels", id);
+
+//        String url = "https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2/pub/parcels/1951257?access_token=0ae2d6309e1b7947430d6147fd3d8a44";
         log.info("URL is {}", url);
         Mono<ParcelByIdResponse> responseMono = webClient
                 .get()
