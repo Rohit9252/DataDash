@@ -2,12 +2,14 @@ package com.api.dataforge.controller;
 
 import com.api.dataforge.dto.ErrorResponseDto;
 import com.api.dataforge.service.RevieweeService;
+import com.api.dataforge.service.impl.RevieweeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +28,7 @@ public class RevieweeController {
         this.revieweeService = revieweeService;
     }
 
-
-    @Operation(summary = "Get all reviewees", description = "Fetches all reviewees for the given dataset")
+    @Operation(summary = "Get all reviewers", description = "Fetches all reviewers for the given dataset")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -43,7 +44,7 @@ public class RevieweeController {
     }
     )
     @GetMapping
-    public Mono<?> getRevieweesHandler(){
-        return revieweeService.fetchReviewees();
+    public ResponseEntity<Mono<?>> getRevieweesHandler(){
+        return ResponseEntity.ok(revieweeService.fetchReviewees());
     }
 }
