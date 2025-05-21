@@ -3,6 +3,7 @@ package com.api.dataforge.controller;
 
 import com.api.dataforge.dto.ErrorResponseDto;
 import com.api.dataforge.service.ZillowService;
+import com.api.dataforge.service.impl.ZillowServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,10 +11,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -26,7 +27,7 @@ public class ZillowController {
     private final ZillowService zillowService;
 
 
-    public ZillowController(ZillowService zillowService) {
+    public ZillowController(ZillowServiceImpl zillowService) {
         this.zillowService = zillowService;
     }
 
@@ -47,9 +48,9 @@ public class ZillowController {
     }
     )
     @GetMapping("/marketreport")
-    public Mono<?> getMarketReport() {
+    public ResponseEntity<Mono<?>> getMarketReport() {
         log.info("Fetching market report");
-        return zillowService.fetchMarketReport();
+         return ResponseEntity.ok(zillowService.fetchMarketReport());
     }
 
 
@@ -70,9 +71,9 @@ public class ZillowController {
     }
     )
     @GetMapping("/marketreport/replication")
-    public Mono<?> getMarketReportReplication() {
+    public ResponseEntity<Mono<?>> getMarketReportReplication() {
         log.info("Fetching market report replication");
-        return zillowService.fetchMarketReportReplication();
+        return ResponseEntity.ok(zillowService.fetchMarketReportReplication());
     }
 
     @Operation(summary = "Retrieves Zillow Group Economic Research region data.", description = "Retrieves Zillow Group Economic Research region data.")
@@ -91,9 +92,9 @@ public class ZillowController {
     }
     )
     @GetMapping("/region")
-    public Mono<?> getRegion() {
+    public ResponseEntity<Mono<?>> getRegion() {
         log.info("Fetching region");
-        return zillowService.fetchRegion();
+        return ResponseEntity.ok(zillowService.fetchRegion());
     }
 
 
@@ -113,9 +114,9 @@ public class ZillowController {
     }
     )
     @GetMapping("/cut")
-    public Mono<?> getCut() {
+    public ResponseEntity<Mono<?>> getCut() {
         log.info("Fetching cut");
-        return zillowService.fetchCut();
+        return ResponseEntity.ok(zillowService.fetchCut());
     }
 
     @Operation(summary = "Retrieves information about the types and their IDs found in the Zillow Group Economic Research data.", description = "Retrieves information about the types and their IDs found in the Zillow Group Economic Research data.")
@@ -134,9 +135,9 @@ public class ZillowController {
     }
     )
     @GetMapping("/type")
-    public Mono<?> getType() {
+    public ResponseEntity<Mono<?>> getType() {
         log.info("Fetching type");
-        return zillowService.fetchType();
+        return ResponseEntity.ok(zillowService.fetchType());
     }
 
 

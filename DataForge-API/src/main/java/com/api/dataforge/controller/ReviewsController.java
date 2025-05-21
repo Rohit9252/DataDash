@@ -2,12 +2,14 @@ package com.api.dataforge.controller;
 
 import com.api.dataforge.dto.ErrorResponseDto;
 import com.api.dataforge.service.ReviewsService;
+import com.api.dataforge.service.impl.ReviewsServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +28,6 @@ public class ReviewsController {
         this.reviewsService = reviewsService;
     }
 
-
-
     @Operation(summary = "Get all reviews", description = "Fetches all reviews for the given dataset")
     @ApiResponses({
             @ApiResponse(
@@ -44,7 +44,7 @@ public class ReviewsController {
     }
     )
     @GetMapping
-    public Mono<?> getReviewsHandler(){
-        return reviewsService.fetchReviews();
+    public ResponseEntity<Mono<?>> getReviewsHandler(){
+        return ResponseEntity.ok(reviewsService.fetchReviews());
     }
 }

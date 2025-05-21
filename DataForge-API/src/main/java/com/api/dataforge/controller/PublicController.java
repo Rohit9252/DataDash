@@ -3,13 +3,16 @@ package com.api.dataforge.controller;
 
 import com.api.dataforge.dto.ErrorResponseDto;
 import com.api.dataforge.service.PublicService;
+import com.api.dataforge.service.impl.PublicServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +33,7 @@ public class PublicController {
         this.publicService = publicService;
     }
 
-
-    @Operation(summary = "Retrieves all parcels", description = "Retrieves all parcels")
+    @Operation(summary = "Retrieves all Public Parcels", description = "Retrieves all Public Parcels")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -47,8 +49,8 @@ public class PublicController {
     }
     )
     @GetMapping("/parcels")
-    public Mono<?> getPubParcels() {
-        return publicService.getPubParcels();
+    public ResponseEntity<Mono<?>> getPubParcels() {
+        return ResponseEntity.ok(publicService.getPubParcels());
     }
 
 
@@ -68,9 +70,14 @@ public class PublicController {
     }
     )
     @GetMapping("/parcels/{id}")
-    public Mono<?> getParcelById(@PathVariable String id) {
+    public ResponseEntity<Mono<?>> getParcelById(
+            @Parameter(
+                    description = "ID of the parcel to retrieve",
+                    example = "1951257"
+            )
+            @PathVariable String id) {
         log.info("Fetching parcel by id: {}", id);
-        return publicService.getParcelById(id);
+        return ResponseEntity.ok(publicService.getParcelById(id));
     }
 
     @Operation(summary = "Retrieves parcel by ID assessments", description = "Retrieves a list of assessments for a given parcel.")
@@ -89,9 +96,14 @@ public class PublicController {
     }
     )
     @GetMapping("/parcels/{id}/assessments")
-    public Mono<?> getParcelByIdAssessments(@PathVariable String id) {
+    public ResponseEntity<Mono<?>> getParcelByIdAssessments(
+            @Parameter(
+                    description = "ID of the parcel to retrieve",
+                    example = "1951257"
+            )
+            @PathVariable String id) {
         log.info("Fetching parcel by id: {}", id);
-        return publicService.getParcelByIdAssessments(id);
+        return ResponseEntity.ok(publicService.getParcelByIdAssessments(id));
     }
 
 
@@ -111,9 +123,14 @@ public class PublicController {
     }
     )
     @GetMapping("/parcels/{id}/transactions")
-    public Mono<?> getParcelByIdTransactions(@PathVariable String id) {
+    public ResponseEntity<Mono<?>> getParcelByIdTransactions(
+            @Parameter(
+                    description = "ID of the parcel to retrieve",
+                    example = "1951257"
+            )
+            @PathVariable String id) {
         log.info("Fetching parcel by id: {}", id);
-        return publicService.getParcelByIdTransactions(id);
+         return ResponseEntity.ok(publicService.getParcelByIdTransactions(id));
     }
 
 
@@ -133,8 +150,8 @@ public class PublicController {
     }
     )
     @GetMapping("/pub/assessments")
-    public Mono<?> getPubAssessments() {
-        return publicService.getPubAssessments();
+    public ResponseEntity<Mono<?>> getPubAssessments() {
+        return ResponseEntity.ok(publicService.getPubAssessments());
     }
 
 
@@ -154,8 +171,8 @@ public class PublicController {
     }
     )
     @GetMapping("/pub/transactions")
-    public Mono<?> getPubTransactions() {
-        return publicService.getPubTransactions();
+    public ResponseEntity<Mono<?>> getPubTransactions() {
+        return ResponseEntity.ok(publicService.getPubTransactions());
     }
 
 
