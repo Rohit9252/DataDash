@@ -1,4 +1,4 @@
-package com.api.dataforge.util;
+package com.api.dataforge.components;
 
 
 import org.springframework.beans.factory.annotation.Value;

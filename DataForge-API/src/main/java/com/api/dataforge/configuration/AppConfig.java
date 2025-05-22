@@ -1,6 +1,7 @@
 package com.api.dataforge.configuration;
 
 
+import io.netty.resolver.DefaultAddressResolverGroup;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -16,8 +17,8 @@ public class AppConfig {
     @Bean
     public WebClient webClient(){
         HttpClient httpClient = HttpClient.create()
-                .responseTimeout(Duration.ofSeconds(10));
-
+                .resolver(DefaultAddressResolverGroup.INSTANCE)
+                .responseTimeout(Duration.ofSeconds(20));
 
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))

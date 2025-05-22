@@ -1,9 +1,10 @@
 package com.api.dataforge.service.impl;
 
+import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.OpenHouseResponse;
 import com.api.dataforge.response.OpenHouseSingleResponse;
 import com.api.dataforge.service.OpenHouseService;
-import com.api.dataforge.util.BridgeApiUriBuilder;
+import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,16 +17,16 @@ import reactor.core.publisher.Mono;
 public class OpenHouseServiceImpl implements OpenHouseService {
 
     private final WebClient webClient;
-    private final BridgeApiUriBuilder bridgeApiUriBuilder;
+    private final BridgeUriCacheService bridgeUriCacheService;
 
-    public OpenHouseServiceImpl(WebClient webClient, BridgeApiUriBuilder bridgeApiUriBuilder) {
+    public OpenHouseServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
         this.webClient = webClient;
-        this.bridgeApiUriBuilder = bridgeApiUriBuilder;
+        this.bridgeUriCacheService = bridgeUriCacheService;
     }
 
     public Mono<OpenHouseResponse> fetchOpenHouses(String dataSet) {
-        String uri = bridgeApiUriBuilder.build(dataSet, "openhouses");
-        log.info("URL is " + uri);
+        String uri = bridgeUriCacheService.getUri(dataSet, "openhouses");
+        log.info("URL is: {} " ,  uri);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -34,8 +35,8 @@ public class OpenHouseServiceImpl implements OpenHouseService {
     }
 
     public Mono<OpenHouseSingleResponse> fetchOpenHouseByKey(String dataSet, String key) {
-        String uri = bridgeApiUriBuilder.buildWithId(dataSet, "openhouses", key);
-        log.info("URL is " + uri);
+        String uri = bridgeUriCacheService.getUriWithId(dataSet, "openhouses", key);
+        log.info("URL is : {} " , uri);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)

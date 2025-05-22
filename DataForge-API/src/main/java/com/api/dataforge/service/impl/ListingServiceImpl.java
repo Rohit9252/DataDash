@@ -1,9 +1,10 @@
 package com.api.dataforge.service.impl;
 
+import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.ListingResponse;
 import com.api.dataforge.response.ListingSingleResponse;
 import com.api.dataforge.service.ListingService;
-import com.api.dataforge.util.BridgeApiUriBuilder;
+import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,17 +19,17 @@ public class ListingServiceImpl implements ListingService {
 
     private final WebClient webClient;
 
-    private final BridgeApiUriBuilder bridgeApiUriBuilder;
+    private final BridgeUriCacheService bridgeUriCacheService;
 
-    public ListingServiceImpl(WebClient webClient, BridgeApiUriBuilder bridgeApiUriBuilder) {
+    public ListingServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
         this.webClient = webClient;
-        this.bridgeApiUriBuilder = bridgeApiUriBuilder;
+        this.bridgeUriCacheService = bridgeUriCacheService;
     }
 
     public Mono<ListingResponse> fetchListings(String dataSet) {
 
-
-        String uri = bridgeApiUriBuilder.build(dataSet, "listings");
+        String uri = bridgeUriCacheService.getUri(dataSet, "listings");
+//        String uri = bridgeApiUriBuilder.build(dataSet, "listings");
         log.info("URL is " + uri);
         return webClient.get()
                 .uri(uri)
@@ -38,7 +39,8 @@ public class ListingServiceImpl implements ListingService {
     }
 
     public Mono<ListingSingleResponse> fetchListingById(String dataSet, String id) {
-        String uri = bridgeApiUriBuilder.buildWithId(dataSet, "listings", id);
+//        String uri = bridgeApiUriBuilder.buildWithId(dataSet, "listings", id);
+        String uri = bridgeUriCacheService.getUriWithId(dataSet, "listings", id);
         log.info("URL is " + uri);
         return webClient.get()
                 .uri(uri)
