@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/property")
+@RequestMapping("/api/v1/reso/property")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Property", description = "Endpoints for managing property")
 public class PropertyController {

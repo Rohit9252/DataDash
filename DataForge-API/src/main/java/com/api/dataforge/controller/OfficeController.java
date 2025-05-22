@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/office")
+@RequestMapping("/api/v1/bridgedata/office")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Offices", description = "Endpoints for managing offices")
 public class OfficeController {

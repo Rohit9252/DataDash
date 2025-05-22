@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/v1/zillow/reviews")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Reviews", description = "Endpoints for managing reviews")
 public class ReviewsController {
