@@ -4,7 +4,7 @@ package com.api.dataforge.service.impl;
 
 import com.api.dataforge.response.RevieweeResponse;
 import com.api.dataforge.service.RevieweeService;
-import com.api.dataforge.util.BridgeApiUriBuilder;
+import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

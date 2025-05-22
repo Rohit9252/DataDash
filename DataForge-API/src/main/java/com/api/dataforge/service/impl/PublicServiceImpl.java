@@ -3,7 +3,7 @@ package com.api.dataforge.service.impl;
 import com.api.dataforge.response.ApiResponse;
 import com.api.dataforge.response.ParcelByIdResponse;
 import com.api.dataforge.service.PublicService;
-import com.api.dataforge.util.MockServerURLBuilder;
+import com.api.dataforge.components.MockServerURLBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
