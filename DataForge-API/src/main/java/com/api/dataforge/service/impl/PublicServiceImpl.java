@@ -1,5 +1,6 @@
 package com.api.dataforge.service.impl;
 
+import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.ApiResponse;
 import com.api.dataforge.response.ParcelByIdResponse;
 import com.api.dataforge.service.PublicService;
@@ -16,16 +17,20 @@ public class PublicServiceImpl implements PublicService {
 
 
     private final WebClient webClient;
-    private final MockServerURLBuilder mockServerURLBuilder;
+
+    private final BridgeUriCacheService bridgeUriCacheService;
 
 
-    public PublicServiceImpl(WebClient webClient, MockServerURLBuilder mockServerURLBuilder) {
+
+
+    public PublicServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
         this.webClient = webClient;
-        this.mockServerURLBuilder = mockServerURLBuilder;
+        this.bridgeUriCacheService = bridgeUriCacheService;
     }
 
     public Mono<?> getPubParcels() {
-        String url = mockServerURLBuilder.buildUri("pub", "parcels");
+        String url = bridgeUriCacheService.getMockUri("pub", "parcels");
+
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -43,7 +48,8 @@ public class PublicServiceImpl implements PublicService {
 
     public Mono<?> getParcelById(String id) {
 
-        String url  = mockServerURLBuilder.buildUri("pub", "parcels", id);
+        String url = bridgeUriCacheService.getMockUri("pub", "parcels", id);
+
 
         log.info("URL is {}", url);
         Mono<ParcelByIdResponse> responseMono = webClient
@@ -63,7 +69,8 @@ public class PublicServiceImpl implements PublicService {
 
     public Mono<?> getParcelByIdAssessments(String id) {
 
-        String url = mockServerURLBuilder.buildUri("pub", "parcels", id, "assessments");
+
+        String url = bridgeUriCacheService.getMockUri("pub", "parcels", id, "assessments");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -83,7 +90,8 @@ public class PublicServiceImpl implements PublicService {
     public Mono<?> getParcelByIdTransactions(String id) {
 
 
-            String url = mockServerURLBuilder.buildUri("pub", "parcels", id, "transactions");
+
+            String url = bridgeUriCacheService.getMockUri("pub", "parcels", id, "transactions");
             log.info("URL is {}", url);
             Mono<ApiResponse> responseMono = webClient
                     .get()
@@ -101,7 +109,8 @@ public class PublicServiceImpl implements PublicService {
 
 
     public Mono<?> getPubAssessments() {
-       String url  = mockServerURLBuilder.buildUri("pub", "assessments");
+        String url = bridgeUriCacheService.getMockUri("pub", "assessments");
+
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -118,7 +127,8 @@ public class PublicServiceImpl implements PublicService {
     }
 
     public Mono<?> getPubTransactions() {
-       String url = mockServerURLBuilder.buildUri("pub", "transactions");
+        String url = bridgeUriCacheService.getMockUri("pub", "transactions");
+
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
