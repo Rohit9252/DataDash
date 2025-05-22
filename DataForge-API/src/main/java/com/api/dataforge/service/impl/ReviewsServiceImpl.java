@@ -2,7 +2,7 @@ package com.api.dataforge.service.impl;
 
 import com.api.dataforge.response.ReviewsResponse;
 import com.api.dataforge.service.ReviewsService;
-import com.api.dataforge.util.BridgeApiUriBuilder;
+import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,7 +32,7 @@ public class ReviewsServiceImpl implements ReviewsService {
                 .bodyToMono(ReviewsResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching Reviews"));
                 });
     }
 }

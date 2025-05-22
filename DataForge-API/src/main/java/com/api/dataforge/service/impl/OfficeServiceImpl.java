@@ -1,9 +1,10 @@
 package com.api.dataforge.service.impl;
 
+import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.OfficeResponse;
 import com.api.dataforge.response.OfficeSingleResponse;
 import com.api.dataforge.service.OfficeService;
-import com.api.dataforge.util.BridgeApiUriBuilder;
+import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,16 +17,17 @@ import reactor.core.publisher.Mono;
 public class OfficeServiceImpl implements OfficeService {
 
     private final WebClient webClient;
-    private final BridgeApiUriBuilder bridgeApiUriBuilder;
+    private final BridgeUriCacheService bridgeUriCacheService;
 
-    public OfficeServiceImpl(WebClient webClient, BridgeApiUriBuilder bridgeApiUriBuilder) {
+    public OfficeServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
         this.webClient = webClient;
-        this.bridgeApiUriBuilder = bridgeApiUriBuilder;
+        this.bridgeUriCacheService = bridgeUriCacheService;
     }
 
     public Mono<OfficeResponse> fetchOffices(String dataSet) {
 
-        String uri = bridgeApiUriBuilder.build(dataSet, "office");
+        String uri = bridgeUriCacheService.getUri(dataSet, "office");
+
         log.info("URL is " + uri);
         return webClient.get()
                 .uri(uri)
@@ -34,12 +36,13 @@ public class OfficeServiceImpl implements OfficeService {
                 .bodyToMono(OfficeResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching offices"));
                 });
     }
 
     public Mono<OfficeSingleResponse> fetchOfficeByKey(String dataSet, String officeKey) {
-        String uri = bridgeApiUriBuilder.buildWithId(dataSet, "office", officeKey);
+        String uri = bridgeUriCacheService.getUriWithId(dataSet, "office", officeKey);
+
         log.info("URL is " + uri);
         return webClient.get()
                 .uri(uri)
@@ -48,7 +51,7 @@ public class OfficeServiceImpl implements OfficeService {
                 .bodyToMono(OfficeSingleResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching Office by OfficeKey "+officeKey));
                 });
     }
 }

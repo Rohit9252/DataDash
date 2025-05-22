@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
                                                                             ServerWebExchange exchange) {
         String path = exchange.getRequest().getPath().value();
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-               path,
+                path,
                 HttpStatus.NOT_FOUND,
                 exception.getMessage(),
                 LocalDateTime.now()

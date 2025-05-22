@@ -3,7 +3,7 @@ package com.api.dataforge.service.impl;
 import com.api.dataforge.response.ApiResponse;
 import com.api.dataforge.response.ParcelByIdResponse;
 import com.api.dataforge.service.PublicService;
-import com.api.dataforge.util.MockServerURLBuilder;
+import com.api.dataforge.components.MockServerURLBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -34,7 +34,7 @@ public class PublicServiceImpl implements PublicService {
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching Parcels"));
                 });
 
 
@@ -53,7 +53,7 @@ public class PublicServiceImpl implements PublicService {
                 .bodyToMono(ParcelByIdResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching Parcel by id "+id));
                 });
 
 
@@ -72,7 +72,7 @@ public class PublicServiceImpl implements PublicService {
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching Assessments by parcel id " + id));
                 });
 
 
@@ -92,7 +92,7 @@ public class PublicServiceImpl implements PublicService {
                     .bodyToMono(ApiResponse.class)
                     .onErrorResume(e -> {
                         log.error("Error fetching agents: {}", e.getMessage());
-                        return Mono.error(new RuntimeException("Error fetching agents"));
+                        return Mono.error(new RuntimeException("Error fetching Transactions by parcel id "+id));
                     });
 
 
@@ -110,7 +110,7 @@ public class PublicServiceImpl implements PublicService {
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching all Assessments"));
                 });
 
 
@@ -127,7 +127,7 @@ public class PublicServiceImpl implements PublicService {
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching all Transactions"));
                 });
 
 

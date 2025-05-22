@@ -4,7 +4,7 @@ package com.api.dataforge.service.impl;
 
 import com.api.dataforge.response.RevieweeResponse;
 import com.api.dataforge.service.RevieweeService;
-import com.api.dataforge.util.BridgeApiUriBuilder;
+import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,7 +36,7 @@ public class RevieweeServiceImpl implements RevieweeService {
                 .bodyToMono(RevieweeResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agents"));
+                    return Mono.error(new RuntimeException("Error fetching all Reviewees"));
                 });
     }
 }
