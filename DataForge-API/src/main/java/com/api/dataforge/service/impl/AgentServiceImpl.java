@@ -36,7 +36,11 @@ public class AgentServiceImpl implements AgentService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(AgentResponse.class);
+                .bodyToMono(AgentResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
 
 
     }
@@ -50,8 +54,11 @@ public class AgentServiceImpl implements AgentService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(AgentSingleResponse.class);
-
+                .bodyToMono(AgentSingleResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
 
     }
 

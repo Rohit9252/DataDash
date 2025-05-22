@@ -31,7 +31,11 @@ public class OfficeServiceImpl implements OfficeService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(OfficeResponse.class);
+                .bodyToMono(OfficeResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
     }
 
     public Mono<OfficeSingleResponse> fetchOfficeByKey(String dataSet, String officeKey) {
@@ -41,6 +45,10 @@ public class OfficeServiceImpl implements OfficeService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(OfficeSingleResponse.class);
+                .bodyToMono(OfficeSingleResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
     }
 }

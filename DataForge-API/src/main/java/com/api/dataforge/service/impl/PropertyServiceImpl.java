@@ -32,7 +32,11 @@ public class PropertyServiceImpl implements PropertyService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(PropertyResponse.class);
+                .bodyToMono(PropertyResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
     }
 
     public Mono<PropertyResponseDTO> fetchPropertyByKey(String dataSet, String propertyKey) {
@@ -42,6 +46,10 @@ public class PropertyServiceImpl implements PropertyService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(PropertyResponseDTO.class);
+                .bodyToMono(PropertyResponseDTO.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
     }
 }

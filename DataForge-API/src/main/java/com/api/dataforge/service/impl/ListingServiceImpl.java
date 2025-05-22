@@ -34,7 +34,11 @@ public class ListingServiceImpl implements ListingService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(ListingResponse.class);
+                .bodyToMono(ListingResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
     }
 
     public Mono<ListingSingleResponse> fetchListingById(String dataSet, String id) {
@@ -44,6 +48,10 @@ public class ListingServiceImpl implements ListingService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(ListingSingleResponse.class);
+                .bodyToMono(ListingSingleResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
     }
 }

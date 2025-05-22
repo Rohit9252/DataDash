@@ -33,6 +33,10 @@ public class RevieweeServiceImpl implements RevieweeService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(RevieweeResponse.class);
+                .bodyToMono(RevieweeResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching agents"));
+                });
     }
 }
