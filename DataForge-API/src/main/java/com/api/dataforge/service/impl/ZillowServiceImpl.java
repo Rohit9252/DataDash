@@ -1,6 +1,7 @@
 package com.api.dataforge.service.impl;
 
 
+import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.ApiResponse;
 import com.api.dataforge.service.ZillowService;
 import com.api.dataforge.components.MockServerURLBuilder;
@@ -14,16 +15,18 @@ import reactor.core.publisher.Mono;
 public class ZillowServiceImpl implements ZillowService {
 
     private final WebClient webClient;
-    protected final MockServerURLBuilder mockServerURLBuilder;
+
+    private final BridgeUriCacheService bridgeUriCacheService;
 
 
-    public ZillowServiceImpl(WebClient webClient, MockServerURLBuilder mockServerURLBuilder) {
+    public ZillowServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
         this.webClient = webClient;
-        this.mockServerURLBuilder = mockServerURLBuilder;
+        this.bridgeUriCacheService = bridgeUriCacheService;
     }
 
     public Mono<ApiResponse> fetchMarketReport() {
-        String url = mockServerURLBuilder.buildUri("zgecon", "marketreport");
+        String url = bridgeUriCacheService.getMockUri("zgecon", "marketreport");
+
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -37,8 +40,8 @@ public class ZillowServiceImpl implements ZillowService {
 
 
     public Mono<ApiResponse> fetchMarketReportReplication() {
+         String url = bridgeUriCacheService.getMockUri("zgecon", "marketreport/replication");
 
-        String url = mockServerURLBuilder.buildUri("zgecon", "marketreport/replication");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -52,8 +55,8 @@ public class ZillowServiceImpl implements ZillowService {
 
     public Mono<?> fetchRegion() {
 
+        String url = bridgeUriCacheService.getMockUri("zgecon", "region");
 
-        String url = mockServerURLBuilder.buildUri("zgecon", "region");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -67,8 +70,8 @@ public class ZillowServiceImpl implements ZillowService {
     }
 
     public Mono<?> fetchCut() {
+        String url = bridgeUriCacheService.getMockUri("zgecon", "cut");
 
-        String url = mockServerURLBuilder.buildUri("zgecon", "cut");
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()
@@ -82,7 +85,8 @@ public class ZillowServiceImpl implements ZillowService {
     }
 
     public Mono<?> fetchType() {
-        String url = mockServerURLBuilder.buildUri("zgecon", "type");
+        String url = bridgeUriCacheService.getMockUri("zgecon", "type");
+
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient
                 .get()

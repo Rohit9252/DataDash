@@ -2,6 +2,7 @@ package com.api.dataforge.service.impl;
 
 
 
+import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.RevieweeResponse;
 import com.api.dataforge.service.RevieweeService;
 import com.api.dataforge.components.BridgeApiUriBuilder;
@@ -17,16 +18,16 @@ import reactor.core.publisher.Mono;
 public class RevieweeServiceImpl implements RevieweeService {
 
     private final WebClient webClient;
-    private final BridgeApiUriBuilder bridgeApiUriBuilder;
+    private final BridgeUriCacheService bridgeUriCacheService;
 
-    public RevieweeServiceImpl(WebClient webClient, BridgeApiUriBuilder bridgeApiUriBuilder) {
+    public RevieweeServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
         this.webClient = webClient;
-        this.bridgeApiUriBuilder = bridgeApiUriBuilder;
+        this.bridgeUriCacheService = bridgeUriCacheService;
     }
 
     public Mono<RevieweeResponse> fetchReviewees() {
+         String uri = bridgeUriCacheService.getODataPathUri( "reviews","Reviewees" );
 
-        String uri = bridgeApiUriBuilder.buildODataPath("reviews", "Reviewees");
         log.info("URL is " + uri);
 
         return webClient.get()
