@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/openhouse")
+@RequestMapping("/api/v1/bridgedata/openhouse")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Open Houses", description = "Endpoints for managing open houses")
 public class OpenHouseController {

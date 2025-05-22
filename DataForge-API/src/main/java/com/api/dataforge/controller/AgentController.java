@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/agents")
+@RequestMapping("/api/v1/bridgedata/agents")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Agents", description = "Endpoints for managing agents")
 public class AgentController {

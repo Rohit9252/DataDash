@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/listings")
+@RequestMapping("/api/v1/bridgedata/listings")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Listings", description = "Endpoints for managing listings")
 public class ListingController {
