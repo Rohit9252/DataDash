@@ -20,11 +20,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AgentServiceImpl implements AgentService {
 
     private final WebClient webClient;
-
     private final BridgeUriCacheService bridgeUriCacheService;
 
 
     private final Map<String, String> uriCache = new ConcurrentHashMap<>();
+
+
 
 
     public AgentServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
@@ -34,10 +35,9 @@ public class AgentServiceImpl implements AgentService {
 
     public Mono<AgentResponse> fetchAgents(String dataSet) {
 
-                 String uri = bridgeUriCacheService.getUri(dataSet, "agents");
+            String uri = bridgeUriCacheService.getUri(dataSet, "agents");
 
-                 log.info("Using cached URI for dataSet " + dataSet + ": " + uri);
-
+            log.info("URL is " + uri);
 
                 return webClient.get()
                 .uri(uri)
@@ -56,9 +56,7 @@ public class AgentServiceImpl implements AgentService {
 
         String uri = bridgeUriCacheService.getUriWithId(dataSet,"agents",  key);
 
-        log.info("Using cached URI: {}", uri);
-
-
+        log.info("URL is " + uri);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -68,6 +66,7 @@ public class AgentServiceImpl implements AgentService {
                     log.error("Error fetching agent by ID: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching agent by Key"+ key));
                 });
+
 
     }
 

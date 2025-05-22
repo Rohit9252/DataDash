@@ -29,6 +29,10 @@ public class ReviewsServiceImpl implements ReviewsService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(ReviewsResponse.class);
+                .bodyToMono(ReviewsResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Reviews"));
+                });
     }
 }

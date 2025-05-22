@@ -31,7 +31,11 @@ public class OpenHouseServiceImpl implements OpenHouseService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(OpenHouseResponse.class);
+                .bodyToMono(OpenHouseResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching OpenHouses"));
+                });
     }
 
     public Mono<OpenHouseSingleResponse> fetchOpenHouseByKey(String dataSet, String key) {
@@ -41,6 +45,10 @@ public class OpenHouseServiceImpl implements OpenHouseService {
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .bodyToMono(OpenHouseSingleResponse.class);
+                .bodyToMono(OpenHouseSingleResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching OpenHouse by OHKey "+key));
+                });
     }
 }

@@ -29,7 +29,11 @@ public class ZillowServiceImpl implements ZillowService {
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(ApiResponse.class);
+                .bodyToMono(ApiResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Market Report"));
+                });
 
 
         return responseMono;
@@ -44,7 +48,11 @@ public class ZillowServiceImpl implements ZillowService {
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(ApiResponse.class);
+                .bodyToMono(ApiResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching market report replication"));
+                });
 
 
         return responseMono;
@@ -59,7 +67,11 @@ public class ZillowServiceImpl implements ZillowService {
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(ApiResponse.class);
+                .bodyToMono(ApiResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Region"));
+                });
 
 
         return responseMono;
@@ -74,7 +86,11 @@ public class ZillowServiceImpl implements ZillowService {
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(ApiResponse.class);
+                .bodyToMono(ApiResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Cuts"));
+                });
 
 
         return responseMono;
@@ -88,7 +104,11 @@ public class ZillowServiceImpl implements ZillowService {
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(ApiResponse.class);
+                .bodyToMono(ApiResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Types"));
+                });
 
 
         return responseMono;
