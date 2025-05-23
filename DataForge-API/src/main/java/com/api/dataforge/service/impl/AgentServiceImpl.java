@@ -4,7 +4,6 @@ import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.AgentResponse;
 import com.api.dataforge.response.AgentSingleResponse;
 import com.api.dataforge.service.AgentService;
-import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,12 +20,8 @@ public class AgentServiceImpl implements AgentService {
 
     private final WebClient webClient;
     private final BridgeUriCacheService bridgeUriCacheService;
-
-
+    
     private final Map<String, String> uriCache = new ConcurrentHashMap<>();
-
-
-
 
     public AgentServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
         this.webClient = webClient;
@@ -35,11 +30,11 @@ public class AgentServiceImpl implements AgentService {
 
     public Mono<AgentResponse> fetchAgents(String dataSet) {
 
-            String uri = bridgeUriCacheService.getUri(dataSet, "agents");
+        String uri = bridgeUriCacheService.getUri(dataSet, "agents");
 
-            log.info("URL is " + uri);
+        log.info("URL is " + uri);
 
-                return webClient.get()
+        return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
@@ -49,12 +44,10 @@ public class AgentServiceImpl implements AgentService {
                     return Mono.error(new RuntimeException("Error fetching agents"));
                 });
 
-
     }
 
     public Mono<AgentSingleResponse> fetchAgentById(String dataSet, String key) {
-
-        String uri = bridgeUriCacheService.getUriWithId(dataSet,"agents",  key);
+        String uri = bridgeUriCacheService.getUriWithId(dataSet, "agents", key);
 
         log.info("URL is " + uri);
         return webClient.get()
@@ -64,10 +57,8 @@ public class AgentServiceImpl implements AgentService {
                 .bodyToMono(AgentSingleResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agent by ID: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching agent by Key"+ key));
+                    return Mono.error(new RuntimeException("Error fetching agent by Key" + key));
                 });
-
-
     }
 
 }

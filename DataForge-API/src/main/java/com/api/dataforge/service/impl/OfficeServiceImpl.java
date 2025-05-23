@@ -4,7 +4,6 @@ import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.OfficeResponse;
 import com.api.dataforge.response.OfficeSingleResponse;
 import com.api.dataforge.service.OfficeService;
-import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -51,7 +50,7 @@ public class OfficeServiceImpl implements OfficeService {
                 .bodyToMono(OfficeSingleResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Office by OfficeKey "+officeKey));
+                    return Mono.error(new RuntimeException("Error fetching Office by OfficeKey " + officeKey));
                 });
     }
 }

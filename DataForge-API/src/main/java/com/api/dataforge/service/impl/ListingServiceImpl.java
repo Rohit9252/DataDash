@@ -4,7 +4,6 @@ import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.ListingResponse;
 import com.api.dataforge.response.ListingSingleResponse;
 import com.api.dataforge.service.ListingService;
-import com.api.dataforge.components.BridgeApiUriBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -53,7 +52,7 @@ public class ListingServiceImpl implements ListingService {
                 .bodyToMono(ListingSingleResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Listing by Listing Key "+ListingKey));
+                    return Mono.error(new RuntimeException("Error fetching Listing by Listing Key " + ListingKey));
                 });
     }
 }
