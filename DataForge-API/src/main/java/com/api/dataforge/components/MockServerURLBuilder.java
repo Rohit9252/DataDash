@@ -10,12 +10,10 @@ public class MockServerURLBuilder {
 
 
     @Value("${postman.mock.url}")
-    private  String baseUrl;
+    private String baseUrl;
 
     @Value("${bridge.access-token}")
-    private  String apiToken;
-
-
+    private String apiToken;
 
 
     public String buildUri(String dataSet, String resource) {
@@ -27,7 +25,7 @@ public class MockServerURLBuilder {
     }
 
 
-    public  String buildUri(String dataSet, String... resources) {
+    public String buildUri(String dataSet, String... resources) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(baseUrl)
                 .pathSegment(dataSet);

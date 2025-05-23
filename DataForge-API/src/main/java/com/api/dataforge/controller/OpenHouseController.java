@@ -49,7 +49,7 @@ public class OpenHouseController {
                     required = true,
                     example = "test"
             )
-            @RequestParam(required = true) String dataSet){
+            @RequestParam(required = true) String dataSet) {
         if (dataSet == null || dataSet.isEmpty()) {
             return ResponseEntity.badRequest().body(Mono.error(new IllegalArgumentException("DataSet cannot be null or empty")));
         }
@@ -84,7 +84,7 @@ public class OpenHouseController {
                     required = true,
                     example = "OH_5dba21c5f47f6c5e35f13545"
             )
-            @PathVariable String openHouseKey){
+            @PathVariable String openHouseKey) {
 
         if (dataSet == null || dataSet.isEmpty()) {
             return ResponseEntity.badRequest().body(Mono.error(new IllegalArgumentException("DataSet cannot be null or empty")));

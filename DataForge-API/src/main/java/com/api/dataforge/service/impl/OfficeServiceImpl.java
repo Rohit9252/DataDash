@@ -51,7 +51,7 @@ public class OfficeServiceImpl implements OfficeService {
                 .bodyToMono(OfficeSingleResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Office by OfficeKey "+officeKey));
+                    return Mono.error(new RuntimeException("Error fetching Office by OfficeKey " + officeKey));
                 });
     }
 }

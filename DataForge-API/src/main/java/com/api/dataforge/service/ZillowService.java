@@ -6,8 +6,12 @@ import reactor.core.publisher.Mono;
 public interface ZillowService {
 
     public Mono<ApiResponse> fetchMarketReport();
+
     public Mono<ApiResponse> fetchMarketReportReplication();
+
     public Mono<?> fetchRegion();
+
     public Mono<?> fetchCut();
+
     public Mono<?> fetchType();
 }

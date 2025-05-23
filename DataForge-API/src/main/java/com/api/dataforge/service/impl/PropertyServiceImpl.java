@@ -48,7 +48,7 @@ public class PropertyServiceImpl implements PropertyService {
                 .bodyToMono(PropertyResponseDTO.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Property by propertyKey "+propertyKey));
+                    return Mono.error(new RuntimeException("Error fetching Property by propertyKey " + propertyKey));
                 });
     }
 }

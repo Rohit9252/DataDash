@@ -50,9 +50,8 @@ public class ZillowController {
     @GetMapping("/marketreport")
     public ResponseEntity<Mono<?>> getMarketReport() {
         log.info("Fetching market report");
-         return ResponseEntity.ok(zillowService.fetchMarketReport());
+        return ResponseEntity.ok(zillowService.fetchMarketReport());
     }
-
 
 
     @Operation(summary = "Retrieves Market Report Replications", description = "Retrieves Zillow Group Economic Research data.")

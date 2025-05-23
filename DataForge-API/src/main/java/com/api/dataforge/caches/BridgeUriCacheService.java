@@ -81,6 +81,7 @@ public class BridgeUriCacheService {
             return uri;
         });
     }
+
     public String getMockUri(String dataSet, String resource) {
         String key = String.format("MOCK::%s::%s", dataSet, resource);
         return uriCache.computeIfAbsent(key, k -> {

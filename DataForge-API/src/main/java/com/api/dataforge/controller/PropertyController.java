@@ -73,8 +73,8 @@ public class PropertyController {
             @Parameter(description = "Property Dataset name", required = true, example = "test")
             @RequestParam(required = true) String dataSet,
             @Parameter(description = "Property ID", required = true, example = "P_5dba1ff94aa4055b9f2a564c")
-            @PathVariable String ListingKey){
-       if (dataSet == null || dataSet.isEmpty()) {
+            @PathVariable String ListingKey) {
+        if (dataSet == null || dataSet.isEmpty()) {
             return ResponseEntity.badRequest().body(Mono.just("Dataset name is required"));
         }
         if (ListingKey == null || ListingKey.isEmpty()) {

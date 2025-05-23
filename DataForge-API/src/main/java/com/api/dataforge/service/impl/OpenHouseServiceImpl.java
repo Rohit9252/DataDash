@@ -26,7 +26,7 @@ public class OpenHouseServiceImpl implements OpenHouseService {
 
     public Mono<OpenHouseResponse> fetchOpenHouses(String dataSet) {
         String uri = bridgeUriCacheService.getUri(dataSet, "openhouses");
-        log.info("URL is: {} " ,  uri);
+        log.info("URL is: {} ", uri);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -40,7 +40,7 @@ public class OpenHouseServiceImpl implements OpenHouseService {
 
     public Mono<OpenHouseSingleResponse> fetchOpenHouseByKey(String dataSet, String key) {
         String uri = bridgeUriCacheService.getUriWithId(dataSet, "openhouses", key);
-        log.info("URL is : {} " , uri);
+        log.info("URL is : {} ", uri);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +48,7 @@ public class OpenHouseServiceImpl implements OpenHouseService {
                 .bodyToMono(OpenHouseSingleResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching OpenHouse by OHKey "+key));
+                    return Mono.error(new RuntimeException("Error fetching OpenHouse by OHKey " + key));
                 });
     }
 }

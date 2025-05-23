@@ -44,7 +44,7 @@ public class ZillowServiceImpl implements ZillowService {
 
 
     public Mono<ApiResponse> fetchMarketReportReplication() {
-         String url = bridgeUriCacheService.getMockUri("zgecon", "marketreport/replication");
+        String url = bridgeUriCacheService.getMockUri("zgecon", "marketreport/replication");
 
         log.info("URL is {}", url);
         Mono<ApiResponse> responseMono = webClient

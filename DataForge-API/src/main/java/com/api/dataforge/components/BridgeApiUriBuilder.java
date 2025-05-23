@@ -17,7 +17,6 @@ public class BridgeApiUriBuilder {
     private String baseUrl;
 
 
-
     public String build(String dataSet, String resource) {
         return UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .pathSegment(dataSet, resource)
@@ -36,7 +35,7 @@ public class BridgeApiUriBuilder {
 
     public String buildOData(String dataSet, String entityName) {
         return UriComponentsBuilder.fromHttpUrl(baseUrl)
-                .path("/OData/" + dataSet + "/" + entityName )
+                .path("/OData/" + dataSet + "/" + entityName)
                 .queryParam("access_token", apiToken)
                 .toUriString();
     }
@@ -59,7 +58,6 @@ public class BridgeApiUriBuilder {
     }
 
 
-
     public String buildWithParams(String dataSet, String resource, Map<String, String> additionalParams) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .pathSegment(dataSet, resource)
@@ -69,9 +67,6 @@ public class BridgeApiUriBuilder {
 
         return builder.build().toUriString();
     }
-
-
-
 
 
 }

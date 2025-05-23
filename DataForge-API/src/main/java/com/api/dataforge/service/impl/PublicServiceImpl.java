@@ -15,12 +15,9 @@ import reactor.core.publisher.Mono;
 public class PublicServiceImpl implements PublicService {
 
 
-
     private final WebClient webClient;
 
     private final BridgeUriCacheService bridgeUriCacheService;
-
-
 
 
     public PublicServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
@@ -59,7 +56,7 @@ public class PublicServiceImpl implements PublicService {
                 .bodyToMono(ParcelByIdResponse.class)
                 .onErrorResume(e -> {
                     log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Parcel by id "+id));
+                    return Mono.error(new RuntimeException("Error fetching Parcel by id " + id));
                 });
 
 
@@ -90,22 +87,21 @@ public class PublicServiceImpl implements PublicService {
     public Mono<?> getParcelByIdTransactions(String id) {
 
 
-
-            String url = bridgeUriCacheService.getMockUri("pub", "parcels", id, "transactions");
-            log.info("URL is {}", url);
-            Mono<ApiResponse> responseMono = webClient
-                    .get()
-                    .uri(url)
-                    .retrieve()
-                    .bodyToMono(ApiResponse.class)
-                    .onErrorResume(e -> {
-                        log.error("Error fetching agents: {}", e.getMessage());
-                        return Mono.error(new RuntimeException("Error fetching Transactions by parcel id "+id));
-                    });
+        String url = bridgeUriCacheService.getMockUri("pub", "parcels", id, "transactions");
+        log.info("URL is {}", url);
+        Mono<ApiResponse> responseMono = webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(ApiResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching agents: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Transactions by parcel id " + id));
+                });
 
 
         return responseMono;
-        }
+    }
 
 
     public Mono<?> getPubAssessments() {

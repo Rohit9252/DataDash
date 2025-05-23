@@ -1,7 +1,6 @@
 package com.api.dataforge.service.impl;
 
 
-
 import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.RevieweeResponse;
 import com.api.dataforge.service.RevieweeService;
@@ -26,7 +25,7 @@ public class RevieweeServiceImpl implements RevieweeService {
     }
 
     public Mono<RevieweeResponse> fetchReviewees() {
-         String uri = bridgeUriCacheService.getODataPathUri( "reviews","Reviewees" );
+        String uri = bridgeUriCacheService.getODataPathUri("reviews", "Reviewees");
 
         log.info("URL is " + uri);
 

@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 public interface OpenHouseService {
 
     public Mono<OpenHouseResponse> fetchOpenHouses(String dataSet);
+
     public Mono<OpenHouseSingleResponse> fetchOpenHouseByKey(String dataSet, String key);
 
 }
