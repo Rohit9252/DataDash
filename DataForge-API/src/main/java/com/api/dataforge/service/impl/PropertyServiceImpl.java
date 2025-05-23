@@ -26,28 +26,28 @@ public class PropertyServiceImpl implements PropertyService {
 
     public Mono<PropertyResponse> fetchProperty(String dataSet) {
         String uri = bridgeUriCacheService.getODataUri(dataSet, "property");
-        log.info("URL is " + uri);
+        log.info("Fetching properties");
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(PropertyResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching Properties: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching Properties"));
                 });
     }
 
     public Mono<PropertyResponseDTO> fetchPropertyByKey(String dataSet, String propertyKey) {
         String uri = bridgeUriCacheService.getODataUriWithKey(dataSet, "property", propertyKey);
-        log.info("URL is " + uri);
+        log.info("Fetching property by ID: {}", propertyKey);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(PropertyResponseDTO.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching Property by propertyKey: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching Property by propertyKey " + propertyKey));
                 });
     }

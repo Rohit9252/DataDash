@@ -35,7 +35,7 @@ public class AgentServiceImpl implements AgentService {
 
         String uri = bridgeUriCacheService.getUri(dataSet, "agents");
 
-        log.info("URL is " + uri);
+        log.info("Fetching agents");
 
         return webClient.get()
                 .uri(uri)
@@ -54,7 +54,7 @@ public class AgentServiceImpl implements AgentService {
 
         String uri = bridgeUriCacheService.getUriWithId(dataSet, "agents", key);
 
-        log.info("URL is " + uri);
+        log.info("Fetching agent by ID: {}", key);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)

@@ -26,8 +26,7 @@ public class RevieweeServiceImpl implements RevieweeService {
 
     public Mono<RevieweeResponse> fetchReviewees() {
         String uri = bridgeUriCacheService.getODataPathUri("reviews", "Reviewees");
-
-        log.info("URL is " + uri);
+        log.info("Fetching Reviewers");
 
         return webClient.get()
                 .uri(uri)
@@ -35,8 +34,8 @@ public class RevieweeServiceImpl implements RevieweeService {
                 .retrieve()
                 .bodyToMono(RevieweeResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching all Reviewees"));
+                    log.error("Error fetching all Reviewers: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching all Reviewers"));
                 });
     }
 }

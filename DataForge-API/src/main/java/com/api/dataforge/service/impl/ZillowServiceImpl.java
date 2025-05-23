@@ -26,95 +26,75 @@ public class ZillowServiceImpl implements ZillowService {
 
     public Mono<ApiResponse> fetchMarketReport() {
         String url = bridgeUriCacheService.getMockUri("zgecon", "marketreport");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Zillow Econ Market Report");
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Market Report"));
+                    log.error("Error Fetching Zillow ECON Market Report: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error Fetching Zillow ECON Market Report"));
                 });
-
-
-        return responseMono;
     }
 
 
     public Mono<ApiResponse> fetchMarketReportReplication() {
         String url = bridgeUriCacheService.getMockUri("zgecon", "marketreport/replication");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Zillow Econ Market Report Replication");
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching market report replication"));
+                    log.error("Error Fetching Zillow Econ Market Report Replication: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error Fetching Zillow Econ Market Report Replication"));
                 });
-
-
-        return responseMono;
     }
 
     public Mono<?> fetchRegion() {
 
         String url = bridgeUriCacheService.getMockUri("zgecon", "region");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info(("Fetching Zillow Econ Region"));
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Region"));
+                    log.error("Error Fetching Zillow Econ Region: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error Fetching Zillow Econ Region"));
                 });
-
-
-        return responseMono;
 
     }
 
     public Mono<?> fetchCut() {
         String url = bridgeUriCacheService.getMockUri("zgecon", "cut");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Zillow Econ Cut data ");
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Cuts"));
+                    log.error("Error Fetching Zillow Econ Cut data: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error Fetching Zillow Econ Cut data"));
                 });
-
-
-        return responseMono;
 
     }
 
     public Mono<?> fetchType() {
         String url = bridgeUriCacheService.getMockUri("zgecon", "type");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Zillow Econ Type data");
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Types"));
+                    log.error("Error Fetching Zillow Econ Type data: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error Fetching Zillow Econ Type data"));
                 });
-
-
-        return responseMono;
     }
 }
