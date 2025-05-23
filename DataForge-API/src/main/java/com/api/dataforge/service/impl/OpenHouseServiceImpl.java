@@ -26,29 +26,29 @@ public class OpenHouseServiceImpl implements OpenHouseService {
 
     public Mono<OpenHouseResponse> fetchOpenHouses(String dataSet) {
         String uri = bridgeUriCacheService.getUri(dataSet, "openhouses");
-        log.info("URL is: {} " ,  uri);
+        log.info("Fetching open houses");
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(OpenHouseResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching OpenHouses: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching OpenHouses"));
                 });
     }
 
     public Mono<OpenHouseSingleResponse> fetchOpenHouseByKey(String dataSet, String key) {
         String uri = bridgeUriCacheService.getUriWithId(dataSet, "openhouses", key);
-        log.info("URL is : {} " , uri);
+        log.info("Fetching open house by ID: {}", key);
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(OpenHouseSingleResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching OpenHouse by OHKey "+key));
+                    log.error("Error fetching OpenHouse by Open House Key: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching OpenHouse by OHKey " + key));
                 });
     }
 }

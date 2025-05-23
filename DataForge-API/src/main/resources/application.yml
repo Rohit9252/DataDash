@@ -9,13 +9,10 @@ spring:
 
 bridge:
   base-url: https://api.bridgedataoutput.com/api/v2
-  access-token: 0ae2d6309e1b7947430d6147fd3d8a44
+  encrypted-token : G8kU69cRf9iz0ecVU1wrYw==:J5vtNrwdcw/mvYZMH5rR/WZyKdL3n55tBET0Aossj4A9Vhtfyk/gCo01EO7osSXJ
+  mock-url: https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2
 
 springdoc:
   override-with-generic-response: false
 
 
-# add postman mock url path
-postman:
-    mock:
-        url: https://3eee4e18-37f2-4f16-8ab1-f72cad864cf1.mock.pstmn.io/api/v2

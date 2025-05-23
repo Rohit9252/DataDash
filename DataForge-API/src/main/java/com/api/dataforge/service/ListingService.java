@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 public interface ListingService {
 
     public Mono<ListingResponse> fetchListings(String dataSet);
+
     public Mono<ListingSingleResponse> fetchListingById(String dataSet, String id);
 
 }

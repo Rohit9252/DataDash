@@ -15,12 +15,9 @@ import reactor.core.publisher.Mono;
 public class PublicServiceImpl implements PublicService {
 
 
-
     private final WebClient webClient;
 
     private final BridgeUriCacheService bridgeUriCacheService;
-
-
 
 
     public PublicServiceImpl(WebClient webClient, BridgeUriCacheService bridgeUriCacheService) {
@@ -30,117 +27,88 @@ public class PublicServiceImpl implements PublicService {
 
     public Mono<?> getPubParcels() {
         String url = bridgeUriCacheService.getMockUri("pub", "parcels");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Public Parcel data");
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching Parcels: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching Parcels"));
                 });
-
-
-        return responseMono;
     }
 
     public Mono<?> getParcelById(String id) {
-
         String url = bridgeUriCacheService.getMockUri("pub", "parcels", id);
-
-
-        log.info("URL is {}", url);
-        Mono<ParcelByIdResponse> responseMono = webClient
+        log.info("Fetching Data from Parcel by ID: {}", id);
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ParcelByIdResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching Parcel by id "+id));
+                    log.error("Error fetching Parcel by id: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Parcel by id " + id));
                 });
-
-
-        return responseMono;
     }
 
 
     public Mono<?> getParcelByIdAssessments(String id) {
-
-
         String url = bridgeUriCacheService.getMockUri("pub", "parcels", id, "assessments");
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Parcel data Assessments by ID: {}", id);
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching Assessments by parcel id: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching Assessments by parcel id " + id));
                 });
-
-
-        return responseMono;
     }
 
 
     public Mono<?> getParcelByIdTransactions(String id) {
-
-
-
-            String url = bridgeUriCacheService.getMockUri("pub", "parcels", id, "transactions");
-            log.info("URL is {}", url);
-            Mono<ApiResponse> responseMono = webClient
-                    .get()
-                    .uri(url)
-                    .retrieve()
-                    .bodyToMono(ApiResponse.class)
-                    .onErrorResume(e -> {
-                        log.error("Error fetching agents: {}", e.getMessage());
-                        return Mono.error(new RuntimeException("Error fetching Transactions by parcel id "+id));
-                    });
-
-
-        return responseMono;
-        }
+        String url = bridgeUriCacheService.getMockUri("pub", "parcels", id, "transactions");
+        log.info("Fetching Parcel data Transactions by ID: {}", id);
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(ApiResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching Transactions by parcel id: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching Transactions by parcel id " + id));
+                });
+    }
 
 
     public Mono<?> getPubAssessments() {
         String url = bridgeUriCacheService.getMockUri("pub", "assessments");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Public Assessment data");
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching all Assessments: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching all Assessments"));
                 });
-
-
-        return responseMono;
     }
 
     public Mono<?> getPubTransactions() {
         String url = bridgeUriCacheService.getMockUri("pub", "transactions");
-
-        log.info("URL is {}", url);
-        Mono<ApiResponse> responseMono = webClient
+        log.info("Fetching Public Transaction data");
+        return webClient
                 .get()
                 .uri(url)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching all Transactions: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching all Transactions"));
                 });
-
-
-        return responseMono;
     }
 }

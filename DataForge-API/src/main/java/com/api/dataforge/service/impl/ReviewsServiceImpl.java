@@ -25,14 +25,14 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     public Mono<ReviewsResponse> fetchReviews() {
         String uri = bridgeUriCacheService.getODataPathUri("reviews", "Reviews");
-        log.info("URL is {}", uri);
+        log.info("Fetching Reviews");
         return webClient.get()
                 .uri(uri)
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(ReviewsResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
+                    log.error("Error fetching Reviews: {}", e.getMessage());
                     return Mono.error(new RuntimeException("Error fetching Reviews"));
                 });
     }

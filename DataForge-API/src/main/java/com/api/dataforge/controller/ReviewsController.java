@@ -44,7 +44,7 @@ public class ReviewsController {
     }
     )
     @GetMapping
-    public ResponseEntity<Mono<?>> getReviewsHandler(){
+    public ResponseEntity<Mono<?>> getReviewsHandler() {
         return ResponseEntity.ok(reviewsService.fetchReviews());
     }
 }

@@ -15,7 +15,7 @@ public class AppConfig {
 
 
     @Bean
-    public WebClient webClient(){
+    public WebClient webClient() {
         HttpClient httpClient = HttpClient.create()
                 .resolver(DefaultAddressResolverGroup.INSTANCE)
                 .responseTimeout(Duration.ofSeconds(20));
@@ -24,7 +24,6 @@ public class AppConfig {
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
-
 
 
 }

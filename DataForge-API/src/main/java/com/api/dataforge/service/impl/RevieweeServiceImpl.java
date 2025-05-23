@@ -1,7 +1,6 @@
 package com.api.dataforge.service.impl;
 
 
-
 import com.api.dataforge.caches.BridgeUriCacheService;
 import com.api.dataforge.response.RevieweeResponse;
 import com.api.dataforge.service.RevieweeService;
@@ -26,9 +25,8 @@ public class RevieweeServiceImpl implements RevieweeService {
     }
 
     public Mono<RevieweeResponse> fetchReviewees() {
-         String uri = bridgeUriCacheService.getODataPathUri( "reviews","Reviewees" );
-
-        log.info("URL is " + uri);
+        String uri = bridgeUriCacheService.getODataPathUri("reviews", "Reviewees");
+        log.info("Fetching Reviewers");
 
         return webClient.get()
                 .uri(uri)
@@ -36,8 +34,8 @@ public class RevieweeServiceImpl implements RevieweeService {
                 .retrieve()
                 .bodyToMono(RevieweeResponse.class)
                 .onErrorResume(e -> {
-                    log.error("Error fetching agents: {}", e.getMessage());
-                    return Mono.error(new RuntimeException("Error fetching all Reviewees"));
+                    log.error("Error fetching all Reviewers: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error fetching all Reviewers"));
                 });
     }
 }
