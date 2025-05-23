@@ -40,8 +40,7 @@ public class AgentController {
                             schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             )
-    }
-    )
+    })
     @GetMapping
     public ResponseEntity<Mono<?>> getAgentsHandler(
             @Parameter(
@@ -49,13 +48,14 @@ public class AgentController {
                     required = true,
                     example = "test"
             )
-            @RequestParam(required = true) String dataSet){
+            @RequestParam(required = true) String dataSet) {
         if (dataSet == null || dataSet.isEmpty()) {
             return ResponseEntity.badRequest().body(Mono.error(new IllegalArgumentException("DataSet cannot be null or empty")));
         }
         return ResponseEntity.ok(agentService.fetchAgents(dataSet));
 
     }
+
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -68,8 +68,7 @@ public class AgentController {
                             schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             )
-    }
-    )
+    })
     @Operation(summary = "Get agent by ID", description = "Fetches a single agent by its ID for the given dataset")
     @GetMapping("/{memberKey}")
     public ResponseEntity<Mono<?>> getAgentByIdHandler(
@@ -84,7 +83,7 @@ public class AgentController {
                     required = true,
                     example = "M_5dba1fa5a2a50c5b81f087c5"
             )
-            @PathVariable String memberKey){
+            @PathVariable String memberKey) {
         if (dataSet == null || dataSet.isEmpty()) {
             return ResponseEntity.badRequest().body(Mono.error(new IllegalArgumentException("DataSet cannot be null or empty")));
         }

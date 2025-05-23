@@ -7,5 +7,6 @@ import reactor.core.publisher.Mono;
 public interface PropertyService {
 
     public Mono<PropertyResponse> fetchProperty(String dataSet);
+
     public Mono<PropertyResponseDTO> fetchPropertyByKey(String dataSet, String propertyKey);
 }

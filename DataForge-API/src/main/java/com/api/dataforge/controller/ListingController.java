@@ -43,7 +43,7 @@ public class ListingController {
     }
     )
     @GetMapping
-    public ResponseEntity<Mono<?>>  getListingHandler(
+    public ResponseEntity<Mono<?>> getListingHandler(
             @Parameter(
                     description = "Name of the dataset the Listing belongs to",
                     required = true,
@@ -57,6 +57,7 @@ public class ListingController {
         return ResponseEntity.ok(listingService.fetchListings(dataSet));
 
     }
+
     @Operation(summary = "Get listing by ID", description = "Fetches a single listing by its ID for the given dataset")
     @ApiResponses({
             @ApiResponse(
@@ -73,7 +74,7 @@ public class ListingController {
     }
     )
     @GetMapping("/{listingKey}")
-    public Mono<?>  getListingByIdHandler(
+    public Mono<?> getListingByIdHandler(
             @Parameter(
                     description = "ID of the listing to fetch",
                     required = true,

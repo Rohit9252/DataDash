@@ -48,13 +48,12 @@ public class OfficeController {
                     required = true,
                     example = "test"
             )
-            @RequestParam(required = true) String dataSet){
+            @RequestParam(required = true) String dataSet) {
         if (dataSet == null || dataSet.isEmpty()) {
             return ResponseEntity.badRequest().body(Mono.just("Dataset parameter is required"));
         }
 
         return ResponseEntity.ok(officeService.fetchOffices(dataSet));
-
 
 
     }
@@ -87,7 +86,7 @@ public class OfficeController {
                     required = true,
                     example = "O_5dba1f95cf17cd5b43eb02cd"
             )
-            @PathVariable String officeKey){
+            @PathVariable String officeKey) {
         if (dataSet == null || dataSet.isEmpty()) {
             return ResponseEntity.badRequest().body(Mono.just("Dataset parameter is required"));
         }

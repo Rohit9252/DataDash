@@ -130,7 +130,7 @@ public class PublicController {
             )
             @PathVariable String id) {
         log.info("Fetching parcel by id: {}", id);
-         return ResponseEntity.ok(publicService.getParcelByIdTransactions(id));
+        return ResponseEntity.ok(publicService.getParcelByIdTransactions(id));
     }
 
 
