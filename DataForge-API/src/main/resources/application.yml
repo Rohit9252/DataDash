@@ -15,4 +15,9 @@ bridge:
 springdoc:
   override-with-generic-response: false
 
+encryption:
+  key: 12345678901234567890123456789012
+  algorithm: AES/CBC/PKCS5Padding
+  iv: 1234567890123456
+
 
