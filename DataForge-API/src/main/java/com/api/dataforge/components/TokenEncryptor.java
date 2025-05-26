@@ -6,6 +6,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 public class TokenEncryptor {
+    
 
     private static final String SECRET_KEY = "0123456789ABCDEF0123456789ABCDEF";
 
