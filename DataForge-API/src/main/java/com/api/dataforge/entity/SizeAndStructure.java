@@ -26,7 +26,7 @@ public class SizeAndStructure {
     private Integer foundationArea;
     private List<String> constructionMaterials;
     private List<String> architecturalStyle;
-    private List<String> structureType;
+    private List<Object> structureType;
     private List<String> levels;
     private List<String> basement;
 }

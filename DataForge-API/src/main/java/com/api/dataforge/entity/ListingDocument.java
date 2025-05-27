@@ -1,18 +1,30 @@
 package com.api.dataforge.entity;
 
-import com.api.dataforge.dto.MediumDTO;
-import lombok.Data;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 import java.util.List;
 
-@Data
-//@Document(collection = "listings")
+@Getter
+@Setter
+//@NoArgsConstructor
+@RequiredArgsConstructor
+@Document(collection = "listings")
 public class ListingDocument {
 
-//    @Id
-    private String id;
+    @Id
+    private String listingDocumentId;
+
+
 
     // Identifiers
+    // this will also be unique
+    @Indexed(unique = true)
     private String listingId;
     private String listingKey;
     private String originatingSystemID;
@@ -21,6 +33,10 @@ public class ListingDocument {
     private String sourceSystemID;
     private String sourceSystemKey;
     private String sourceSystemName;
+
+    // property reference
+    @DBRef
+    private PropertyDocument propertyDocument;
 
     // Pricing
     private Integer listPrice;
@@ -99,4 +115,7 @@ public class ListingDocument {
     private Object videosCount;
     private Integer photosCount;
     private List<Medium> medium;
+
+
+
 }
