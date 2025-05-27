@@ -33,7 +33,7 @@ public class DbListingService {
 
     private final ListingRepository listingRepository;
 
-    private final PropertyRepository propertyRepository; // Assuming you might need this for property details
+    private final PropertyRepository propertyRepository;
 
 
     public DbListingService(ListingService listingService, ListingMapper listingMapper, PropertyDetailsMapper propertyDetailsMapper, ListingRepository listingRepository, PropertyRepository propertyRepository) {
