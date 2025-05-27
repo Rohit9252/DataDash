@@ -2,6 +2,7 @@ package com.api.dataforge.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
         name = "ListingResponseDTO",
         description = "Schema to hold listing response information"
 )
+@Getter
 public class ListingResponseDTO {
 
     @JsonProperty("StreetDirPrefix")

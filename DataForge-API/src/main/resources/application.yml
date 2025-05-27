@@ -4,6 +4,18 @@ server:
 spring:
   application:
     name: DataForge-API
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/dataforge
+      database: dataforge
+      username: root
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true
   main:
     web-application-type: reactive
 
@@ -19,5 +31,17 @@ encryption:
   key: 12345678901234567890123456789012
   algorithm: AES/CBC/PKCS5Padding
   iv: 1234567890123456
+
+
+listing:
+  propertySubTypes:
+    - Condominium
+  city:
+    - Madilynberg
+    - Schroedermouth
+  priceRange:
+    min: 100000
+    max: 500000
+
 
 
