@@ -3,6 +3,7 @@ package com.api.dataforge.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,6 +23,8 @@ public class ListingDocument {
 
 
     // Identifiers
+    // this will also be unique
+    @Indexed(unique = true)
     private String listingId;
     private String listingKey;
     private String originatingSystemID;

@@ -24,6 +24,8 @@ public class PropertyDetailsMapper {
         PropertyDocument details = new PropertyDocument();
 
         // Basic fields
+        details.setListingId(dto.listingId);
+        details.setListingKey(dto.listingKey);
         details.setPropertyType(dto.propertyType);
         details.setPropertySubType(dto.propertySubType);
         details.setPropertyCondition(dto.propertyCondition instanceof ArrayList ? (ArrayList<Object>) dto.propertyCondition : new ArrayList<>());
@@ -39,7 +41,7 @@ public class PropertyDetailsMapper {
 
         // Address
         Address address = new Address();
-//        PropertyDocument.Address address = new PropertyDocument.Address();
+
         address.setStreetNumber(dto.streetNumber);
         address.setStreetName(dto.streetName);
         address.setUnitNumber(dto.unitNumber);
@@ -59,7 +61,6 @@ public class PropertyDetailsMapper {
 
         // Size and Structure
         SizeAndStructure size = new SizeAndStructure();
-//        PropertyDetails.SizeAndStructure size = new PropertyDetails.SizeAndStructure();
         size.setLivingArea(dto.livingArea);
         size.setBuildingAreaTotal(dto.buildingAreaTotal);
         size.setLotSizeAcres(dto.lotSizeAcres);
@@ -87,7 +88,6 @@ public class PropertyDetailsMapper {
 
         // Legal and Tax Info
         LegalTaxInfo legal = new LegalTaxInfo();
-//        PropertyDetails.LegalTaxInfo legal = new PropertyDetails.LegalTaxInfo();
         legal.setParcelNumber(dto.parcelNumber);
         legal.setTaxAssessedValue(dto.taxAssessedValue);
         legal.setTaxAnnualAmount(dto.taxAnnualAmount);

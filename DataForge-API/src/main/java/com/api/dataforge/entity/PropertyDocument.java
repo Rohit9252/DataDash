@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@ToString
 @Document(collection = "properties")
 public class PropertyDocument {
 
@@ -29,6 +30,8 @@ public class PropertyDocument {
     private String yearBuiltDetails;
     private String yearBuiltEffective;
     private Boolean newConstructionYN;
+    private String ListingId;
+    private String ListingKey;
 
     // Location and Address
     private Address address;
@@ -44,7 +47,7 @@ public class PropertyDocument {
     private LegalTaxInfo legalTaxInfo;
 
 
-    public PropertyDocument(String propertyType, String propertySubType, List<Object> propertyCondition, String ownership, String ownershipType, String zoning, String zoningDescription, Integer yearBuilt, String yearBuiltSource, String yearBuiltDetails, String yearBuiltEffective, Boolean newConstructionYN, Address address, SizeAndStructure sizeAndStructure, AmenitiesDocument amenitiesDocument, LegalTaxInfo legalTaxInfo) {
+    public PropertyDocument(String propertyType, String propertySubType, List<Object> propertyCondition, String ownership, String ownershipType, String zoning, String zoningDescription, Integer yearBuilt, String yearBuiltSource, String yearBuiltDetails, String yearBuiltEffective, Boolean newConstructionYN, String listingId, String listingKey, Address address, SizeAndStructure sizeAndStructure, AmenitiesDocument amenitiesDocument, LegalTaxInfo legalTaxInfo) {
         this.propertyType = propertyType;
         this.propertySubType = propertySubType;
         this.propertyCondition = propertyCondition;
@@ -57,6 +60,8 @@ public class PropertyDocument {
         this.yearBuiltDetails = yearBuiltDetails;
         this.yearBuiltEffective = yearBuiltEffective;
         this.newConstructionYN = newConstructionYN;
+        ListingId = listingId;
+        ListingKey = listingKey;
         this.address = address;
         this.sizeAndStructure = sizeAndStructure;
         this.amenitiesDocument = amenitiesDocument;

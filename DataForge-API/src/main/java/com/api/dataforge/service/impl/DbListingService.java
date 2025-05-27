@@ -17,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -66,20 +68,54 @@ public class DbListingService {
         List<ListingDocument> listingDocuments = new ArrayList<>();
         for (ListingResponseDTO dto : listingResponseDTOList) {
 
-            // Convert DTO to ListingDocument
-            ListingDocument listingDocument = listingMapper.toListingDocument(dto);
-            // Convert DTO to PropertyDocument
-            PropertyDocument propertyDetails = propertyDetailsMapper.toPropertyDetails(dto);
+            Optional<ListingDocument> existingDocOpt = listingRepository.findByListingId(dto.listingId);
 
-            try {
-                PropertyDocument propertySaveDocument = propertyRepository.save(propertyDetails);
-                log.info("Property is saved to the database: {}", propertySaveDocument.getPropertyDocumentId());
-                listingDocument.setPropertyDocument(propertyDetails);
-                ListingDocument listingSaveDocument = listingRepository.save(listingDocument);
-                System.out.println("Saved Listing Document: ");
-                listingDocuments.add(listingSaveDocument);
-            } catch (Exception e) {
-                log.error("Error saving listing document: {}", e.getMessage());
+            if (existingDocOpt.isPresent()) {
+                ListingDocument existingDoc = existingDocOpt.get();
+                Date existingTimestamp = existingDoc.getBridgeModificationTimestamp();
+                Date newTimestamp = dto.bridgeModificationTimestamp;
+                log.info("Existing Document found with ID: {}, Existing Timestamp: {}, New Timestamp: {}", existingDoc.getListingDocumentId(), existingTimestamp, newTimestamp);
+                if (newTimestamp != null && (existingTimestamp == null || newTimestamp.after(existingTimestamp))) {
+                    // Update existing document
+                    PropertyDocument existingProperty = existingDoc.getPropertyDocument();
+                    if (existingProperty != null) {
+                        PropertyDocument updatedProperty = propertyDetailsMapper.toPropertyDetails(dto);
+                        updatedProperty.setPropertyDocumentId(existingProperty.getPropertyDocumentId()); // keep ID
+                        PropertyDocument savedProperty = propertyRepository.save(updatedProperty);
+                        log.info("Updated property document ID: {}", savedProperty.getPropertyDocumentId());
+                        existingDoc.setPropertyDocument(savedProperty);
+                    } else {
+                        // Property not present, create new one
+                        PropertyDocument newProperty = propertyDetailsMapper.toPropertyDetails(dto);
+                        PropertyDocument savedProperty = propertyRepository.save(newProperty);
+                        existingDoc.setPropertyDocument(savedProperty);
+                        log.info("Created new property document ID: {}", savedProperty.getPropertyDocumentId());
+                    }
+                    ListingDocument updatedDoc = listingMapper.toListingDocument(dto);
+                    updatedDoc.setListingDocumentId(existingDoc.getListingDocumentId());
+                    updatedDoc.setPropertyDocument(existingDoc.getPropertyDocument());
+                    ListingDocument savedDoc = listingRepository.save(updatedDoc);
+                    listingDocuments.add(savedDoc);
+                    log.info("Updated listing document ID: {}", savedDoc.getListingDocumentId());
+
+                    log.info("Updated listing with ID: {}", dto.listingId);
+                } else {
+                    log.info("Skipped update for listing ID {} - bridgeModificationTimestamp unchanged", dto.listingId);
+                }
+            } else {
+                ListingDocument listingDocument = listingMapper.toListingDocument(dto);
+                PropertyDocument propertyDetails = propertyDetailsMapper.toPropertyDetails(dto);
+                try {
+                    PropertyDocument propertySaveDocument = propertyRepository.save(propertyDetails);
+                    log.info("Property is saved to the database: {}", propertySaveDocument.getPropertyDocumentId());
+                    listingDocument.setPropertyDocument(propertySaveDocument);
+                    ListingDocument listingSaveDocument = listingRepository.save(listingDocument);
+                    System.out.println("Saved Listing Document: ");
+                    listingDocuments.add(listingSaveDocument);
+                } catch (Exception e) {
+                    log.error("Error saving listing document: {}", e.getMessage());
+                }
+
             }
 
         }
@@ -90,12 +126,11 @@ public class DbListingService {
 
 
     public List<ListingDocument> saveCriteriaResponses(ListingCriteriaConfig listingCriteriaConfig) {
-
         List<String> propertySubTypes = listingCriteriaConfig.getPropertySubTypes();
-
         ListingResponse listingResponse = null;
         try {
             listingResponse = listingService.fetchListings("test").block();
+            log.info("Fetched Listings Size: {}", listingResponse != null ? listingResponse.getBundle().size() : 0);
         } catch (Exception e) {
             log.error("Error fetching listings: {}", e.getMessage());
             return null;
@@ -106,12 +141,13 @@ public class DbListingService {
                         .filter(e -> propertySubTypes.contains(e.propertySubType)).toList() : null;
 //                       .filter(dto ->
         //                config.getPropertyTypes().contains(dto.propertySubType) &&
-        //                config.getLocations().contains(dto.city) &&  // Replace dto.city with correct location field
+        //                config.getLocations().contains(dto.city) &&
         //                 dto.listPrice != null &&
         //                 dto.listPrice >= config.getPriceRange().getMin() &&
         //                 dto.listPrice <= config.getPriceRange().getMax()
         //        ).toList();
 
+        log.info("After filtering, Listings Size: {}", ListingResponseDTOs.size());
         try {
             List<ListingDocument> listingDocuments = saveListingDocument(ListingResponseDTOs);
             log.info("Listing is saved to the database: {}", listingDocuments.size());

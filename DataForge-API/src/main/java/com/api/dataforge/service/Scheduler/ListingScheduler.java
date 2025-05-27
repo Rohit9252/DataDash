@@ -23,7 +23,7 @@ public class ListingScheduler {
         this.listingCriteriaConfig = listingCriteriaConfig;
     }
 
-    @Scheduled(fixedRate = 15 * 60 * 1000)
+    @Scheduled(fixedRate = 2 * 60 * 1000)
     public void saveListings(){
         try {
             List<ListingDocument> listingDocuments = dbListingService.saveCriteriaResponses(listingCriteriaConfig);
