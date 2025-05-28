@@ -2,6 +2,7 @@ package com.api.dataforge.mapper;
 
 
 import com.api.dataforge.dto.ListingResponseDTO;
+import com.api.dataforge.dto.PropertyResponseDTO;
 import com.api.dataforge.entity.*;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ public class PropertyDetailsMapper {
         this.amenitiesMapper = amenitiesMapper;
     }
 
-    public PropertyDocument toPropertyDetails(ListingResponseDTO dto) {
+    public PropertyDocument toPropertyDetails(PropertyResponseDTO dto) {
         if (dto == null) return null;
 
         PropertyDocument details = new PropertyDocument();

@@ -1,13 +1,16 @@
 package com.api.dataforge.components;
 
 
+import com.api.dataforge.configuration.ListingCriteriaConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -82,6 +85,45 @@ public class BridgeApiUriBuilder {
 
         return builder.build().toUriString();
     }
+
+    public String buildFilterUrl(ListingCriteriaConfig config) {
+        UriComponentsBuilder builder =  UriComponentsBuilder.fromUri(URI.create(baseUrl()))
+                .pathSegment("OData","test", "Properties")
+                .queryParam("access_token", decryptedToken);
+
+        StringBuilder filter = new StringBuilder();
+
+        // Extract criteria from the config
+        List<String> propertySubTypes = config.getPropertySubTypes();
+        // PropertySubType filter (OR)
+        if (propertySubTypes != null && !propertySubTypes.isEmpty()) {
+            String subTypeFilter = propertySubTypes.stream()
+                    .map(subType -> "(PropertySubType eq '" + subType + "')")
+                    .collect(Collectors.joining(" or "));
+            filter.append("(").append(subTypeFilter).append(")");
+        }
+
+        List<String> cities = config.getCity();
+        // City filter (OR)
+        if (cities != null && !cities.isEmpty()) {
+            String cityFilter = cities.stream()
+                    .map(city -> "(City eq '" + city + "')")
+                    .collect(Collectors.joining(" or "));
+            if (filter.length() > 0) filter.append(" or ");  // Combine with OR
+            filter.append("(").append(cityFilter).append(")");
+        }
+
+        // Add the filter to the URL
+        if (filter.length() > 0) {
+            builder.queryParam("$filter", filter.toString());
+        }
+
+        String url = builder.build().toUriString();
+        log.info("Generated Property/City Filter URL: {}", url);
+        return url;
+    }
+
+
 
 
 }

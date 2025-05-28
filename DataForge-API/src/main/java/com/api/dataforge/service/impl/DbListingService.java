@@ -1,8 +1,11 @@
 package com.api.dataforge.service.impl;
 
 
+import com.api.dataforge.caches.BridgeUriCacheService;
+import com.api.dataforge.components.BridgeApiUriBuilder;
 import com.api.dataforge.configuration.ListingCriteriaConfig;
 import com.api.dataforge.dto.ListingResponseDTO;
+import com.api.dataforge.dto.PropertyResponseDTO;
 import com.api.dataforge.entity.CompleteListingDocument;
 import com.api.dataforge.entity.ListingDocument;
 import com.api.dataforge.entity.PropertyDocument;
@@ -10,11 +13,17 @@ import com.api.dataforge.mapper.ListingMapper;
 import com.api.dataforge.mapper.PropertyDetailsMapper;
 import com.api.dataforge.repository.ListingRepository;
 import com.api.dataforge.repository.PropertyRepository;
+import com.api.dataforge.response.AgentResponse;
 import com.api.dataforge.response.ListingResponse;
 import com.api.dataforge.response.ListingSingleResponse;
+import com.api.dataforge.response.PropertyResponse;
 import com.api.dataforge.service.ListingService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,38 +44,49 @@ public class DbListingService {
 
     private final PropertyRepository propertyRepository;
 
+    private final WebClient webClient;
 
-    public DbListingService(ListingService listingService, ListingMapper listingMapper, PropertyDetailsMapper propertyDetailsMapper, ListingRepository listingRepository, PropertyRepository propertyRepository) {
+
+
+    private final BridgeApiUriBuilder bridgeApiUriBuilder;
+
+
+    public DbListingService(ListingService listingService, ListingMapper listingMapper, PropertyDetailsMapper propertyDetailsMapper,
+                            ListingRepository listingRepository, PropertyRepository propertyRepository
+                            , BridgeApiUriBuilder bridgeApiUriBuilder , WebClient webClient
+    ) {
         this.propertyRepository = propertyRepository;
         this.listingService = listingService;
         this.listingMapper = listingMapper;
         this.propertyDetailsMapper = propertyDetailsMapper;
         this.listingRepository = listingRepository;
-    }
-
-    public ListingDocument getListingById(String dataSet, String id) {
-        List<ListingResponseDTO> ListingResponseDto = listingService.fetchListingById(dataSet, id).map(ListingSingleResponse::getBundle).block();
-        ListingDocument listingDocument = listingMapper.toListingDocument(ListingResponseDto.get(0));
-        // Property Details
-        PropertyDocument propertyDetails = propertyDetailsMapper.toPropertyDetails(ListingResponseDto.get(0));
-        // complete listing document
-        CompleteListingDocument completeListingClass = new CompleteListingDocument();
-        completeListingClass.setListing(listingDocument);
-        completeListingClass.setPropertyDetails(propertyDetails);
-        PropertyDocument propertySaveDocument = propertyRepository.save(propertyDetails);
-        System.out.println("Property is  saved to the database");
-        listingDocument.setPropertyDocument(propertyDetails);
-        ListingDocument listingSaveDocument = listingRepository.save(listingDocument);
-        System.out.println("Saved Listing Document: ");
-
-        return listingSaveDocument;
-
+        this.bridgeApiUriBuilder = bridgeApiUriBuilder;
+        this.webClient = webClient;
 
     }
 
-    private List<ListingDocument> saveListingDocument(List<ListingResponseDTO> listingResponseDTOList) {
+//    public ListingDocument saveListingDocumentById(String dataSet, String id) {
+//        List<ListingResponseDTO> ListingResponseDto = listingService.fetchListingById(dataSet, id).map(ListingSingleResponse::getBundle).block();
+//        ListingDocument listingDocument = listingMapper.toListingDocument(ListingResponseDto.get(0));
+//        // Property Details
+//        PropertyDocument propertyDetails = propertyDetailsMapper.toPropertyDetails(ListingResponseDto.get(0));
+//        // complete listing document
+//        CompleteListingDocument completeListingDocument = new CompleteListingDocument();
+//        completeListingDocument.setListing(listingDocument);
+//        completeListingDocument.setPropertyDetails(propertyDetails);
+//        PropertyDocument propertySaveDocument = propertyRepository.save(propertyDetails);
+//        System.out.println("Property is  saved to the database");
+//        listingDocument.setPropertyDocument(propertyDetails);
+//        ListingDocument listingSaveDocument = listingRepository.save(listingDocument);
+//        System.out.println("Saved Listing Document: ");
+//
+//        return listingSaveDocument;
+//
+//    }
+
+    private List<ListingDocument> saveListingDocument(List<PropertyResponseDTO> propertyResponseDTOS) {
         List<ListingDocument> listingDocuments = new ArrayList<>();
-        for (ListingResponseDTO dto : listingResponseDTOList) {
+        for (PropertyResponseDTO dto : propertyResponseDTOS) {
 
             Optional<ListingDocument> existingDocOpt = listingRepository.findByListingId(dto.listingId);
 
@@ -110,14 +130,12 @@ public class DbListingService {
                     log.info("Property is saved to the database: {}", propertySaveDocument.getPropertyDocumentId());
                     listingDocument.setPropertyDocument(propertySaveDocument);
                     ListingDocument listingSaveDocument = listingRepository.save(listingDocument);
-                    System.out.println("Saved Listing Document: ");
+                    log.info("Listing is saved to the database: {}", listingSaveDocument.getListingDocumentId());
                     listingDocuments.add(listingSaveDocument);
                 } catch (Exception e) {
                     log.error("Error saving listing document: {}", e.getMessage());
                 }
-
             }
-
         }
         log.info("Total Listings saved: {}", listingDocuments.size());
         return listingDocuments;
@@ -126,31 +144,25 @@ public class DbListingService {
 
 
     public List<ListingDocument> saveCriteriaResponses(ListingCriteriaConfig listingCriteriaConfig) {
-        List<String> propertySubTypes = listingCriteriaConfig.getPropertySubTypes();
-        ListingResponse listingResponse = null;
-        try {
-            listingResponse = listingService.fetchListings("test").block();
-            log.info("Fetched Listings Size: {}", listingResponse != null ? listingResponse.getBundle().size() : 0);
-        } catch (Exception e) {
-            log.error("Error fetching listings: {}", e.getMessage());
-            return null;
-        }
-        List<ListingResponseDTO> ListingResponseDTOs = listingResponse != null ?
-                listingResponse.getBundle()
-                        .stream()
-                        .filter(e -> propertySubTypes.contains(e.propertySubType)).toList() : null;
-//                       .filter(dto ->
-        //                config.getPropertyTypes().contains(dto.propertySubType) &&
-        //                config.getLocations().contains(dto.city) &&
-        //                 dto.listPrice != null &&
-        //                 dto.listPrice >= config.getPriceRange().getMin() &&
-        //                 dto.listPrice <= config.getPriceRange().getMax()
-        //        ).toList();
 
-        log.info("After filtering, Listings Size: {}", ListingResponseDTOs.size());
+        String url = bridgeApiUriBuilder.buildFilterUrl(listingCriteriaConfig);
+
+        PropertyResponse propertyResponse = webClient.get()
+                .uri(url)
+                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .bodyToMono(PropertyResponse.class)
+                .onErrorResume(e -> {
+                    log.error("Error fetching Properties Bases on the Criteria: {}", e.getMessage());
+                    return Mono.error(new RuntimeException("Error Fetching Properties"));
+                }).block();
+
+        log.info("Properties Found bases on the criteria is : {}", propertyResponse.getPropValue().size());
+        List<PropertyResponseDTO> propValue = propertyResponse.getPropValue();
+
         try {
-            List<ListingDocument> listingDocuments = saveListingDocument(ListingResponseDTOs);
-            log.info("Listing is saved to the database: {}", listingDocuments.size());
+            List<ListingDocument> listingDocuments = saveListingDocument(propValue);
+            log.info("Number of : {} Saved in database", listingDocuments.size());
             return listingDocuments;
         } catch (Exception e) {
             log.info("Exception occurred while Fetching Listings: {}", e.getMessage());

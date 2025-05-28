@@ -35,10 +35,12 @@ encryption:
 
 listing:
   propertySubTypes:
-    - Condominium
+    - 'Condominium'
+    - 'Single Family Residence'
   city:
-    - Madilynberg
-    - Schroedermouth
+    - 'Madilynberg'
+    - 'Schroedermouth'
+    - 'West Tremayne'
   priceRange:
     min: 100000
     max: 500000
