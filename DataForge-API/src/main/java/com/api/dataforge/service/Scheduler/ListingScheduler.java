@@ -23,13 +23,13 @@ public class ListingScheduler {
         this.listingCriteriaConfig = listingCriteriaConfig;
     }
 
-    @Scheduled(fixedRate = 2 * 60 * 1000)
+    @Scheduled(initialDelay = 100000, fixedRate = 2 * 60 * 1000)
     public void saveListings(){
         try {
             List<ListingDocument> listingDocuments = dbListingService.saveCriteriaResponses(listingCriteriaConfig);
             log.info("Saved Listing Data Size is: {}", listingDocuments.size());
         } catch (Exception e) {
-            log.error("Error during scheduled job", e);
+            log.error("Error during scheduled job", e.getMessage());
         }
     }
 

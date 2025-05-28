@@ -3,6 +3,7 @@ package com.api.dataforge.mapper;
 
 
 import com.api.dataforge.dto.ListingResponseDTO;
+import com.api.dataforge.dto.PropertyResponseDTO;
 import com.api.dataforge.entity.AmenitiesDocument;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AmenitiesMapper {
 
-    public  AmenitiesDocument toAmenitiesDocument(ListingResponseDTO dto) {
+    public  AmenitiesDocument toAmenitiesDocument(PropertyResponseDTO dto) {
         if (dto == null) return null;
 
         AmenitiesDocument doc = new AmenitiesDocument();
